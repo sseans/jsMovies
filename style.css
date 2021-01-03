@@ -22,6 +22,11 @@ body {
 }
 
 /* Header & Nav Toolbar */
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .toolBar {
     display: flex;
     flex-direction: row;
@@ -39,6 +44,47 @@ body {
 
 .divider {
     border-left: 2px solid var(--raspberry);
+}
+
+.logoContainer {
+    padding-top: 11.5px;
+    padding-left: 15px;
+
+}
+
+.inputContainer {
+    padding-top: 15px;
+    padding-right: 15px;
+}
+
+.searchBar {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px var(--platinum) solid;
+    color: var(--platinum);
+    width: 87.5px;
+}
+
+.searchBar:active, 
+.searchBar:focus {
+    outline: none;
+}
+
+.searchBar::placeholder {
+    color: var(--platinum);
+}
+
+.searchBar:focus::placeholder {
+    color: transparent;
+}
+
+.toolbarTitle {
+    color: var(--raspberry);
+    font-size: 22px;
+}
+
+.toolbarMovie {
+    color: var(--platinum);
 }
 
 /* Toolbar Buttons */
