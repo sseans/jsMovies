@@ -1,0 +1,93 @@
+:root {
+    --raspberry: #DB2955;
+    --gunmetal: #183642;
+    --spaceCadet: #313d5a;
+    --lavenderBlue: #CBC5EA;
+    --platinum: #EAEAEA;
+    --celadonGreen: #048A81;
+    font-size: 16px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    box-sizing: inherit;
+    background-color: var(--gunmetal);
+}
+
+.toolBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.toolBar > ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    list-style-type: none;
+    width: 40%;
+    color: var(--raspberry);
+    font-size: 22px;
+}
+
+li:nth-child(n+2) {
+    border-left: 2px solid var(--raspberry);
+    padding-left: 10%;
+}
+
+.content {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.centralContentContainer {
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mainTitle {
+    color: var(--raspberry);
+    font-size: 10rem;
+}
+
+.movie {
+    color: var(--platinum);
+}
+
+.description {
+    color: var(--platinum);
+}
+
+.viewMoviesButton {
+    background-color: var(--platinum);
+    border: none;
+    text-transform: uppercase;
+    margin-top: 20px;
+    padding: 2.5px 15px;
+    font-weight: bold;
+    color: var(--raspberry);
+    border-radius: 2px;
+}
+
+.viewMoviesButton:hover {
+    background-color: var(--raspberry);
+    color: var(--platinum);
+}
+.viewMoviesButton:active,
+.viewMoviesButton:focus {
+    border: none;
+    outline: none;
+}
