@@ -19,6 +19,12 @@
 body {
     box-sizing: inherit;
     background-color: var(--gunmetal);
+    background: rgb(24,54,66);
+    background: radial-gradient(circle, rgba(24,54,66,1) 0%, rgba(22,33,40,1) 100%);
+}
+
+.content {
+    background-color: var(--raspberry);
 }
 
 /* Header & Nav Toolbar */
@@ -26,7 +32,9 @@ header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding-bottom: 30px;
 }
+
 .toolBar {
     display: flex;
     flex-direction: row;
@@ -49,7 +57,10 @@ header {
 .logoContainer {
     padding-top: 11.5px;
     padding-left: 15px;
+}
 
+.logoLink {
+    text-decoration: none;
 }
 
 .inputContainer {
@@ -112,16 +123,16 @@ header {
 
 /* Main Page Content */
 .content {
+    margin-top: -4px;
     width: 100%;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 .centralContentContainer {
-    margin-top: -100px;
+    margin-top: -50px;
     width: 600px;
     display: flex;
     flex-direction: column;
@@ -130,7 +141,7 @@ header {
 
 /* Title, Description and Movie Button */
 .mainTitle {
-    color: var(--raspberry);
+    color: var(--gunmetal);
     font-size: 10rem;
 }
 
@@ -154,7 +165,7 @@ header {
 }
 
 .viewMoviesButton:hover {
-    background-color: var(--raspberry);
+    background-color: var(--gunmetal);
     color: var(--platinum);
 }
 .viewMoviesButton:active,
