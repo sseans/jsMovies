@@ -19,6 +19,7 @@ body {
     background-color: var(--outerSpaceCrayola);
 }
 
+/* Divs */
 .contentContainer {
     width: 100%;
     height: 100vh;
@@ -37,6 +38,7 @@ body {
     color: white;
 }
 
+/* Text Container Elements */
 h1 {
     margin: 10px;
 }
@@ -63,15 +65,38 @@ p {
     color: var(--outerSpaceCrayola);
 }
 
+/* Animate Up Properties */
 @keyframes moveUp {
     0% {
         margin-top: 0px;
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
     }
     100% {
         margin-top: -400px;
+        opacity: 0;
     }
 }
 
 #animation {
-    animation: moveUp 300ms;
+    animation: moveUp 500ms forwards;
+}
+
+/* After Button is pressed */
+.modeActivated {
+    width: 90%;
+    border: red 1px solid;
+    display: flex;
+    flex-wrap: wrap;
+
+
+}
+
+.moviePosters {
+    background-color: white;
+    width: 200px;
+    height: 300px;
+    margin: 5px 10px 5px 10px;
 }
