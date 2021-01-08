@@ -1,5 +1,4 @@
 // Variables
-console.log('firstresponse');
 
 // Selectors
 const movieButton = document.getElementById('movieModeButton')
@@ -10,11 +9,21 @@ movieButton.addEventListener('click', movieMode)
 
 // Functions
 function movieMode() {
-    console.log('moviemode');
-    
+    document.querySelector('.content').id = 'animationUp';
+    setTimeout(function() {removeDiv('content')}, 300);
+    setTimeout(bodyChange, 100)
 }
 
-console.log('wow');
+function removeDiv(className) {
+    let elements = document.getElementsByClassName(className);
+    if (elements.length > 0) {
+        elements[0].parentNode.removeChild(elements[0]);
+    }
+}
+
+function bodyChange() {
+    document.querySelector('.defaultBody').className = 'postAnimationBody';
+}
 
 
 

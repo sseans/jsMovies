@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style.css">
     <title>Movie Picker</title>
 </head>
-<body>
+<body class="defaultBody">
     <header>
         <div class="logoContainer">
             <a class="logoLink" href="index.html">
@@ -31,36 +31,29 @@
         
     </header>
 
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#DB2955" fill-opacity="1" d="M0,224L720,32L1440,320L1440,320L720,320L0,320Z"></path></svg>
-
     <div class="content">
 
-        <div class="centralContentContainer">
-            <div class="titleContainer">
-                <h1 class="mainTitle"><span class="movie">Movie</span>Fx</h1>
-            </div>
-            <p class="description">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                Phasellus vestibulum justo mi, sit amet ultrices ligula 
-                ornare non. Duis lobortis euismod orci a vehicula. 
-            </p>
+        <div class="svgContainer">
+            <svg class="svgShape" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#DB2955" fill-opacity="1" d="M0,224L720,32L1440,320L1440,320L720,320L0,320Z"></path></svg>
+        </div>
 
-            <button id="movieModeButton" class="viewMoviesButton">View Movies</button>
+        <div class="raspberryBody">
+            <div class="centralContentContainer">
+                <div class="titleContainer">
+                    <h1 class="mainTitle"><span class="movie">Movie</span>Fx</h1>
+                </div>
+                <p class="description">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                    Phasellus vestibulum justo mi, sit amet ultrices ligula 
+                    ornare non. Duis lobortis euismod orci a vehicula. 
+                </p>
+    
+                <button id="movieModeButton" class="viewMoviesButton">View Movies</button>
+            </div>
         </div>
+
         
-        
-        <div class="movieContainer">
-            
-            
-        </div>
     </div>   
-        
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TweenMax.min.js" 
-    integrity="sha512-DkPsH9LzNzZaZjCszwKrooKwgjArJDiEjA5tTgr3YX4E6TYv93ICS8T41yFHJnnSmGpnf0Mvb5NhScYbwvhn2w==" 
-    crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.3/TimelineMax.min.js" 
-    integrity="sha512-0xrMWUXzEAc+VY7k48pWd5YT6ig03p4KARKxs4Bqxb9atrcn2fV41fWs+YXTKb8lD2sbPAmZMjKENiyzM/Gagw==" 
-    crossorigin="anonymous"></script>
 
 </body>
 </html>

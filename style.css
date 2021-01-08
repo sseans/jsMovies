@@ -16,14 +16,15 @@
     font-family: 'Roboto', sans-serif;
 }
 
-body {
+.defaultBody {
     box-sizing: inherit;
     background-color: var(--gunmetal);
     background: rgb(24,54,66);
     background: radial-gradient(circle, rgba(24,54,66,1) 0%, rgba(22,33,40,1) 100%);
 }
 
-.content {
+.postAnimationBody {
+    box-sizing: inherit;
     background-color: var(--raspberry);
 }
 
@@ -131,12 +132,42 @@ header {
     align-items: center;
 }
 
+.raspberryBody {
+    background-color: var(--raspberry);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .centralContentContainer {
+    background-color: var(--raspberry);
     margin-top: -50px;
     width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.svgContainer {
+    width: 100%;
+    background-color: transparent;
+    margin-bottom: -4px;
+}
+
+/* Animations */
+@keyframes moveUp {
+    0% {
+        margin-top: 0px;
+    }
+    100% {
+        margin-top: -700px;
+    }
+}
+
+#animationUp {
+    animation: moveUp 500ms forwards ease;
 }
 
 /* Title, Description and Movie Button */

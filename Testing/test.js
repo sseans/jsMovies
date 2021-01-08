@@ -1,18 +1,19 @@
+// Selectors
 const button = document.querySelector('.button');
-const contentBox = document.querySelector('.contentContainer');
 
+// Event Listeners
 button.addEventListener('click', modeActivate)
 
+// Functions
 function modeActivate() {
-    //Move Div Up
-    document.querySelector('.textContainer').id = 'animation';
-    console.log('function-accessed');
-    // Create Div
-    setTimeout(createDiv, 800)
-    // Remove Div
-    setTimeout(function() {
-        removeDiv('textContainer')
-    }, 500)
+    //Move Content Div Up
+    document.querySelector('.textContainer').id = 'textAnimationUp';
+    // Remove contentContainer Div
+    setTimeout(function() {removeDiv('contentContainer')}, 375)
+    // Create modeActivated Div
+    setTimeout(createDiv, 300)
+    // Move modeActivated Div Up
+    setTimeout(posterAnimation, 300)
     
 }
 
@@ -24,14 +25,22 @@ function removeDiv(className) {
 }
 
 function createDiv() {
-    // Create Div
+    // Create New contentBox Div
+    let contentBox = document.createElement('div')
+    document.body.appendChild(contentBox)
+    contentBox.className = 'contentContainerMovie'
+    // Create modeActivated Div
     let element = document.createElement('div')
     contentBox.appendChild(element)
     element.className = 'modeActivated'
-    // Create Sub Divs
+    // Create Sub Divs (moviePosters)
     for (let i = 0; i < 12; i++) {
         let moviePosters = document.createElement('div')
         element.appendChild(moviePosters)
         moviePosters.className = 'moviePosters'
     }
+}
+
+function posterAnimation() {
+    document.querySelector('.modeActivated').id = 'posterAnimationUp';
 }
