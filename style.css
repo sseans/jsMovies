@@ -55,6 +55,10 @@ header {
     border-left: 2px solid var(--raspberry);
 }
 
+.dividerAfter {
+    border-left: 2px solid var(--gunmetal);
+}
+
 .logoContainer {
     padding-top: 11.5px;
     padding-left: 15px;
@@ -77,6 +81,10 @@ header {
     width: 87.5px;
 }
 
+.searchBar:hover {
+    opacity: .75;
+}
+
 .searchBar:active, 
 .searchBar:focus {
     outline: none;
@@ -92,6 +100,11 @@ header {
 
 .toolbarTitle {
     color: var(--raspberry);
+    font-size: 22px;
+}
+
+.toolbarTitleAfter {
+    color: var(--gunmetal);
     font-size: 22px;
 }
 
@@ -112,12 +125,35 @@ header {
 }
 
 .toolbarButtons:hover {
-    font-size: 24px;
     color: var(--platinum);
+    font-weight: bold;
 }
 
 .toolbarButtons:active,
 .toolbarButtons:focus {
+    outline: none;
+    border: none;
+}
+
+/* Toolbar Buttons After Moviemode Animation */
+.toolbarButtonsAfter {
+    cursor: pointer;
+    border: none;
+    text-transform: uppercase;
+    background-color: transparent;
+    color: var(--gunmetal);
+    font-size: 20px;
+    width: 100px;
+    height: 32.5px;
+}
+
+.toolbarButtonsAfter:hover {
+    color: var(--platinum);
+    font-weight: bold;
+}
+
+.toolbarButtonsAfter:active,
+.toolbarButtonsAfter:focus {
     outline: none;
     border: none;
 }
@@ -141,6 +177,14 @@ header {
     align-items: center;
 }
 
+.raspberryFooter {
+    background-color: var(--raspberry);
+    bottom: 0;
+    width: 100%;
+    height: 20%;
+    position: absolute;
+}
+
 .centralContentContainer {
     background-color: var(--raspberry);
     margin-top: -50px;
@@ -156,18 +200,55 @@ header {
     margin-bottom: -4px;
 }
 
+/* Movie Mode Elements */ 
+.movieModeContainer {
+    opacity: 0;
+    margin: 5%;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.moviePosters {
+    background-color: white;
+    width: 200px;
+    height: 300px;
+    margin: 15px;
+}
+
 /* Animations */
 @keyframes moveUp {
     0% {
         margin-top: 0px;
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.97;
     }
     100% {
         margin-top: -700px;
+        opacity: 0;
     }
 }
 
 #animationUp {
     animation: moveUp 500ms forwards ease;
+}
+
+@keyframes posterUp {
+    0% {
+        margin-top: 500px;
+        opacity: 0;
+    }
+    100% {
+        margin-top: 0px;
+        opacity: 1;
+    }
+}
+
+#posterAnimationUp {
+    animation: posterUp 500ms forwards;
 }
 
 /* Title, Description and Movie Button */
