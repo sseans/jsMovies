@@ -211,7 +211,7 @@ header {
 }
 
 .moviePosters {
-    background-color: white;
+    background-color: var(--gunmetal);
     width: 200px;
     height: 300px;
     margin: 15px;
