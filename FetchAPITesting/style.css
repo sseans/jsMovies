@@ -19,9 +19,19 @@ body {
     background-color: var(--outerSpaceCrayola);
 }
 
+
 .content {
     width: 100%;
     height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.inputDiv {
+    width: 100%;
+    height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,4 +43,22 @@ input {
 
 button {
     height: 20px;
+}
+
+.movieSearchResults {
+    width: 100%;
+    height: 50px;
+}
+
+.movie {
+    margin: 5%;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+img {
+    background-color: var(--gunmetal);
+    margin: 15px;
 }

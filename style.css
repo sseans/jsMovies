@@ -162,7 +162,6 @@ header {
 .content {
     margin-top: -4px;
     width: 100%;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -211,9 +210,6 @@ header {
 }
 
 .moviePosters {
-    background-color: var(--gunmetal);
-    width: 200px;
-    height: 300px;
     margin: 15px;
 }
 
