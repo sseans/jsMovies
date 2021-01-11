@@ -13,10 +13,26 @@ const searchForm = document.querySelector('.inputContainer')
 
 // Event Listeners
 movieButton.addEventListener('click', movieMode)
-searchForm.addEventListener('submit', movieModeSearch)
+searchForm.addEventListener('submit', function checkIfPreviouslyUsed(event) {
+                                            event.preventDefault();
+                                            if (document.querySelector('.movieModeContainer') == null) {
+                                                movieModeSearch()
+                                            } else {
+                                                removeDiv('movieModeContainer')
+                                                movieModeSearchFromSearchMode()
+                                            }
+                                        })
 
 
 // Key Functions
+function movieModeSearchFromSearchMode() {
+    // Create movie mode divs
+    setTimeout(fetchMovieSearch, 100)
+    setTimeout(() => {
+        inputElement.value = ''
+    }, 300); 
+}
+
 function movieModeSearch(Event) {
     event.preventDefault();
     // Play animation / Remove animated divs
@@ -27,6 +43,9 @@ function movieModeSearch(Event) {
     setTimeout(colorChange, 40)
     // Create movie mode divs
     setTimeout(fetchMovieSearch, 100)
+    setTimeout(() => {
+        inputElement.value = ''
+    }, 300); 
 }
 
 function movieMode() {
@@ -126,7 +145,9 @@ function createMovieContainer(movies) {
 }
 
 function movieImages(movies) {
+    // Loops through movies (data.results)
     return movies.map((movie) => {
+        // only returns html template literal (backtick) if there is a poster img
         if (movie.poster_path == null) {
             return
         } else {
@@ -134,6 +155,7 @@ function movieImages(movies) {
                         <img src=${imageURL + movie.poster_path} data-movie-id=${movie.id}/>
                     </div>`;
         }
+        // .map adds a comma between each element, this is to remove that
     }).join('')
 }
 
