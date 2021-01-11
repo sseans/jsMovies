@@ -14,6 +14,7 @@ const searchForm = document.querySelector('.inputContainer')
 // Event Listeners
 movieButton.addEventListener('click', movieMode)
 searchForm.addEventListener('submit', function checkIfPreviouslyUsed(event) {
+                                            // Adds ability to search again from results page without going back
                                             event.preventDefault();
                                             if (document.querySelector('.movieModeContainer') == null) {
                                                 movieModeSearch()
