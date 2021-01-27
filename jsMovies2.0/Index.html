@@ -19,13 +19,15 @@
         <nav class="navbar">
             <div class="navbar__container">
                 <div class="navbar__logo">
-                    <h1 class="logo">Movie<span>FX</span></h1>
+                    <a class="logo__link" href="Index.html">
+                        <h1 class="logo">Movie<span>FX</span></h1>
+                    </a>
                 </div>
                 <div class="navbar__rightside">
                     <ul class="navbar__menu">
-                        <li class="navbar__link">Genres</li>
-                        <li class="navbar__link">Trending</li>
-                        <li class="navbar__link">Rating</li>
+                        <li class="navbar__link" id="genresLink">Genres</li>
+                        <li class="navbar__link" id="trendingLink">Trending</li>
+                        <li class="navbar__link" id="ratingLink">Rating</li>
                     </ul>
                     <div class="navbar__searchbox">
                         <input type="text" class="searchbox__input">
@@ -40,10 +42,10 @@
                 <!-- Mobile Nav Section -->
                 <div class="navbar__mobileSearch">
                     <div class="mobileSearch__logo">
-                        <h1 class="logo">Movie<span>FX</span></h1>
-                        <i class="fas fa-search"></i>
-
-
+                        <a class="mobileSearch__logoLink" href="Index.html">
+                            <h1 class="logo">Movie<span>FX</span></h1>
+                            <i class="fas fa-search"></i>
+                        </a>
                     </div>
                     <input type="text" placeholder="" class="mobileSearch__input">
                     <div class="mobileSearch__hamburger">
