@@ -24,14 +24,24 @@
 body, html {
     box-sizing: inherit;
     height: 100%;
+    width: 100%;
     font-family: 'Open Sans', sans-serif;
 }
 
 .body__wrapper {
-    height: 100%;
+    height: fit-content;
+    min-height: 100%;
+    width: 100%;
     background-color: var(--spaceCadet);
     background: rgb(49,61,90);
     background: linear-gradient(58deg, rgba(49,61,90,1) 0%, rgba(156,195,210,1) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: scroll;
+    position: relative;
+    height: 100%;
+
     /* background: rgb(49,61,90);
     background: linear-gradient(145deg, rgba(49,61,90,1) 0%, rgba(4,138,129,1) 100%); */
     /* background-color: var(--gunmetal);
@@ -87,6 +97,8 @@ body, html {
     width: fit-content;
     display: flex;
     align-items: center;
+    position: relative;
+    z-index: 1;
 }
 
 /* Navbar List */
@@ -139,6 +151,13 @@ body, html {
     outline: none;
     width: 85%;
     height: 100%;
+    color: var(--spaceCadet);
+}
+
+.searchbox__submitbutton {
+    border: none;
+    background-color: transparent;
+    outline: none;
 }
 
 .fa-search {
@@ -188,6 +207,70 @@ body, html {
 
 .navbar__mobileSearch {
     display: none;
+}
+
+/* Main Content */
+
+.content {
+    border: palegoldenrod 3px dashed;
+    height: 400px;
+    width: 90%;
+    max-width: 1200px;
+}
+
+/* Animations */
+
+@keyframes moveUp {
+    0% {
+        margin-top: 0px;
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.97;
+    }
+    100% {
+        margin-top: -700px;
+        opacity: 0;
+    }
+}
+
+#animationUp {
+    animation: moveUp 500ms forwards ease;
+}
+
+@keyframes posterUp {
+    0% {
+        margin-top: 500px;
+        opacity: 0;
+    }
+    40% {
+        opacity: 0;
+    }
+    100% {
+        margin-top: 0px;
+        opacity: 1;
+    }
+}
+
+#posterAnimationUp {
+    animation: posterUp 500ms forwards;
+}
+
+/* Movie Mode Elements */ 
+.movieModeContainer {
+    opacity: 0;
+    margin: 5%;
+    width: auto;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 0;
+}
+
+.moviePosters {
+    margin: 15px;
 }
 
 
@@ -357,6 +440,10 @@ body, html {
         padding: 0% 0px 5% 0px;
     }
     
+    /* Mobile Content */
 
+    .content {
+        width: 85%;
+    }
 
 }
