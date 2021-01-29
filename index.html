@@ -4,58 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <script src="app.js" defer></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Movie Picker</title>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <!-- Font Awesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha512-SUwyLkI1Wgm4aEZkDkwwigXaOI2HFLy1/YW73asun4sfvlkB9Ecl99+PHfCnfWD0FJjIuFTvWMM7BZPXCckpAA==" crossorigin="anonymous" />
+    <!-- css & js -->
+    <link rel="stylesheet" href="Style.css">
+    <script src="App.js" defer></script>
+    <title>MovieFx</title>
 </head>
-<body class="defaultBody">
-    <header>
-        <div class="logoContainer">
-            <a class="logoLink" href="index.html">
-                <h1 class="toolbarTitle"><span class="toolbarMovie">Movie</span>Fx</h1>
-            </a>
-        </div>
-        <div class="toolBar">
-            <ul>
-                <li><button class="toolbarButtons">Login</button></li>
-                <li class="divider"></li>
-                <li><button class="toolbarButtons">Movies</button></li>
-                <li class="divider"></li>
-                <li><button class="toolbarButtons">Ratings</button></li>
-            </ul>
-        </div>
-        <form class="inputContainer">
-            <input placeholder="Search Movies" class="searchBar" type="text">
-        </form>
-        
-    </header>
-
-    <div class="content">
-
-        <div class="svgContainer">
-            <svg class="svgShape" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#DB2955" fill-opacity="1" d="M0,224L720,32L1440,320L1440,320L720,320L0,320Z"></path></svg>
-        </div>
-
-        <div class="raspberryBody">
-            <div class="centralContentContainer">
-                <div class="titleContainer">
-                    <h1 class="mainTitle"><span class="movie">Movie</span>Fx</h1>
+<body>
+    <div class="body__wrapper">
+        <!-- Nav Section -->
+        <nav class="navbar">
+            <div class="navbar__container">
+                <div class="navbar__logo">
+                    <a class="logo__link" href="Index.html">
+                        <h1 class="logo">Movie<span>FX</span></h1>
+                    </a>
                 </div>
-                <p class="description">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Phasellus vestibulum justo mi, sit amet ultrices ligula 
-                    ornare non. Duis lobortis euismod orci a vehicula. 
-                </p>
-    
-                <button id="movieModeButton" class="viewMoviesButton">View Trending Movies</button>
+                <div class="navbar__rightside">
+                    <ul class="navbar__menu">
+                        <li class="navbar__link" id="genresLink">Genres</li>
+                        <li class="navbar__link" id="trendingLink">Trending</li>
+                        <li class="navbar__link" id="ratingLink">Rating</li>
+                    </ul>
+                    <form class="navbar__searchbox">
+                        <input type="text" class="searchbox__input">
+                        <button type="submit" class="searchbox__submitbutton">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                    <button class="navbar__darkmode">
+                        <div class="darkmode__toggle">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                    </button>
+                </div>
+                <!-- Mobile Nav Section -->
+                <div class="navbar__mobileSearch">
+                    <div class="mobileSearch__logo">
+                        <a class="mobileSearch__logoLink" href="Index.html">
+                            <h1 class="logo">Movie<span>FX</span></h1>
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                    <input type="text" placeholder="" class="mobileSearch__input">
+                    <div class="mobileSearch__hamburger">
+                        <span class="hamburger__bar"></span>
+                        <span class="hamburger__bar"></span>
+                        <span class="hamburger__bar"></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="content">
+            <div class="content__container">
+                <div class="content__featured">
+                    <div class="featured__slider">
+                        
+                    </div>
+                </div>
             </div>
         </div>
-    </div>   
-
-    <div class="raspberryFooter">
-        
     </div>
-
 </body>
 </html>

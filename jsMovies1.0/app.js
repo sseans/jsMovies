@@ -6,19 +6,12 @@ const imageURL = 'https://image.tmdb.org/t/p/w185/'
 const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=672afe6c70446d4ff7c242f8bb0a3609'
 
 // Selectors
-const hamburgerButton = document.querySelector('.mobileSearch__hamburger')
-const dropDown = document.querySelector('.navbar__rightside')
-const hamburgerBar = document.querySelectorAll('.hamburger__bar')
-
-const bodyWrapper = document.querySelector('.body__wrapper')
-
-const movieButton = document.getElementById('trendingLink')
+const movieButton = document.getElementById('movieModeButton')
 const content = document.querySelector('.content')
-const inputElement = document.querySelector('.searchbox__input')
-const searchForm = document.querySelector('.navbar__searchbox')
+const inputElement = document.querySelector('.searchBar')
+const searchForm = document.querySelector('.inputContainer')
 
 // Event Listeners
-hamburgerButton.addEventListener('click', hamburgerToggle)
 movieButton.addEventListener('click', movieMode)
 searchForm.addEventListener('submit', function checkIfPreviouslyUsed(event) {
                                             // Adds ability to search again from results page without going back
@@ -33,27 +26,6 @@ searchForm.addEventListener('submit', function checkIfPreviouslyUsed(event) {
                                             }
                                         })
 
-// Functions
-
-// Mobile hamburger menu
-function hamburgerToggle() {
-    dropDown.classList.toggle('active')
-    hamburgerBar.forEach(bar => {
-        bar.classList.toggle('active')
-    });
-}
-
-function removeDiv(className) {
-    // Goes through array to remove the div and every child element
-    let elements = document.getElementsByClassName(className);
-    if (elements.length > 0) {
-        elements[0].parentNode.removeChild(elements[0]);
-    }
-}
-
-function moviePosterAnimationPlay() {
-    document.querySelector('.movieModeContainer').id = 'posterAnimationUp'
-}
 
 // Key Functions
 function movieModeSearchFromSearchMode() {
@@ -69,6 +41,9 @@ function movieModeSearch(Event) {
     // Play animation / Remove animated divs
     document.querySelector('.content').id = 'animationUp';
     setTimeout(function() {removeDiv('content')}, 175);
+    setTimeout(function() {removeDiv('raspberryFooter')}, 175);
+    // Change BG color
+    setTimeout(colorChange, 40)
     // Create movie mode divs
     setTimeout(fetchMovieSearch, 100)
     setTimeout(() => {
@@ -80,10 +55,40 @@ function movieMode() {
     // Play animation / Remove animated divs
     document.querySelector('.content').id = 'animationUp';
     setTimeout(function() {removeDiv('content')}, 175);
+    setTimeout(function() {removeDiv('raspberryFooter')}, 175);
+    // Change BG color
+    setTimeout(colorChange, 40)
     // Create movie mode divs
     setTimeout(fetchTrending, 100)
 }
 
+// Functions
+function removeDiv(className) {
+    // Goes through array to remove the div and every child element
+    let elements = document.getElementsByClassName(className);
+    if (elements.length > 0) {
+        elements[0].parentNode.removeChild(elements[0]);
+    }
+}
+
+function colorChange() {
+    // Color Change  various toolbar elements after background color changed
+    document.querySelector('.defaultBody').className = 'postAnimationBody';
+    document.querySelector('.toolbarTitle').className = 'toolbarTitleAfter';
+    // Changing classnames for multiple items in the Toolbar, 3 for the LI elements, 2 for dividers
+    for(let i = 0; i < 3; i++) {
+        document.querySelector('.toolbarButtons').className = 'toolbarButtonsAfter';
+        if (i < 2) {
+            document.querySelector('.divider').className = 'dividerAfter';
+        }
+    }
+}
+
+function moviePosterAnimationPlay() {
+    console.log('animationfunction activated');
+    
+    document.querySelector('.movieModeContainer').id = 'posterAnimationUp'
+}
 
 // Fetch Functions
 function fetchTrending() {
@@ -94,7 +99,7 @@ function fetchTrending() {
             const movies = data.results;
             // call function to create div/posters and append to DOM
             const movieBlock = createMovieContainer(movies)
-            bodyWrapper.appendChild(movieBlock)
+            document.body.appendChild(movieBlock)
             // Log json data
             console.log('Data: ', data);
             // Play Animation
@@ -117,7 +122,7 @@ function fetchMovieSearch() {
             const movies = data.results;
             // call function to create div/posters and append to DOM
             const movieBlock = createMovieContainer(movies)
-            bodyWrapper.appendChild(movieBlock)
+            document.body.appendChild(movieBlock)
             // Log json data
             console.log('Data: ', data);
             // Play Animation
@@ -156,3 +161,10 @@ function movieImages(movies) {
         // .map adds a comma between each element, this is to remove that
     }).join('')
 }
+
+
+
+
+
+
+
