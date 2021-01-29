@@ -329,7 +329,6 @@ body, html {
     .mobileSearch__logoLink {
         display: flex;
         flex-direction: row;
-        justify-content: ;
         align-items: center;
         width: 130px;
         background-color: transparent;
