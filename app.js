@@ -6,7 +6,7 @@ const imageURL = 'https://image.tmdb.org/t/p/w185/'
 const imageURLLarge = 'https://image.tmdb.org/t/p/w342/'
 const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=672afe6c70446d4ff7c242f8bb0a3609'
 
-// Selectors
+// Selector
 const hamburgerButton = document.querySelector('.mobileSearch__hamburger')
 const dropDown = document.querySelector('.navbar__rightside')
 const hamburgerBar = document.querySelectorAll('.hamburger__bar')
