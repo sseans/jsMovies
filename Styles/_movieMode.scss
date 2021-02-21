@@ -1,0 +1,16 @@
+/* Movie Mode Elements */ 
+.movieModeContainer {
+    opacity: 0;
+    margin: 5%;
+    width: auto;
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 0;
+}
+
+.moviePosters {
+    margin: 15px;
+}
