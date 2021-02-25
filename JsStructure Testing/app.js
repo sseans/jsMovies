@@ -27,15 +27,24 @@ function hamburgerToggle() {
     if (hamburgerButton.classList.contains('active')) {
         fetchTrending(movieSection, imageURL)
     } else {
-        removeDiv('movieModeContainer')
+        removeDiv('.movieModeContainer')
+        removeObjects()
     }
 }
 
 function removeDiv(className) {
     // Goes through array to remove the div and every child element
-    let elements = document.getElementsByClassName(className);
-    if (elements.length > 0) {
-        elements[0].parentNode.removeChild(elements[0]);
+    let elements = Array.from(document.querySelectorAll(className))
+    elements.forEach(element => {
+        if (elements.length > 0) {
+            element.parentNode.removeChild(element);
+        }
+    });
+}
+
+function removeObjects()  {
+    for (let i = 0; movieObjectArray.length > 0; i++) {
+        movieObjectArray.pop()
     }
 }
 
@@ -49,14 +58,10 @@ function fetchTrending(appendDestination, imageURLSize) {
             buildMovieObjects(movies)             
             // call function to create div/posters and append to DOM
             movieObjectArray.forEach(element => {
-                let wow = element.createMovieBlock.bind(element)
-                wow(imageURLSize, appendDestination)
+                let boundFunction = element.createMovieBlock.bind(element)
+                boundFunction(imageURLSize, appendDestination)
             });
-            let bang = movieObjectArray[0].print.bind(movieObjectArray[0])
-            bang()
-        
-            console.log(movieObjectArray[0]);
-            
+            console.log(movieObjectArray);
         })
         .catch((error) => {
             console.log('Error: ', error);
@@ -64,9 +69,7 @@ function fetchTrending(appendDestination, imageURLSize) {
 }
 
 function buildMovieObjects(data) {
-    data.forEach(element => movieObjectArray.push(new movie(element))) 
-    console.log(movieObjectArray);
-    
+    data.forEach(element => movieObjectArray.push(new movie(element)))     
 }
 
 class movie {
