@@ -16,7 +16,6 @@ const movieSection = document.querySelector('.movies')
 // Event Listeners
 hamburgerButton.addEventListener('click', hamburgerToggle)
 
-
 // Mobile hamburger menu
 function hamburgerToggle() {
     hamburgerBar.forEach(bar => {
@@ -72,6 +71,10 @@ function buildMovieObjects(data) {
     data.forEach(element => movieObjectArray.push(new movie(element)))     
 }
 
+function addEventListenerToObjects() {
+
+}
+
 class movie {
     constructor(individualMovieData) {
         this.title = individualMovieData.title
@@ -100,6 +103,9 @@ class movie {
         const movieElement = document.createElement('div')
         movieElement.className = 'movieModeContainer'
 
+        // create Event Listener
+        movieElement.addEventListener('click', () => this.toggleMovieView(movieElement))
+
         // Create HTML Template with poster images
         let movieTemplate = `${this.movieImages(imageURLSize)}`;
 
@@ -119,6 +125,13 @@ class movie {
                         <img src=${imageURLSize + this.posterPath} data-movie-id=${this.id}/>
                     </div>`;
         }
+    }
+
+    toggleMovieView(movieElement) {
+        let childOfMovieElement =  movieElement.childNodes
+        // Toggle Viewing Class CSS
+        childOfMovieElement[0].classList.toggle('viewing')
+        movieElement.classList.toggle('viewing')
     }
 }
 
