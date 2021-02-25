@@ -11,6 +11,7 @@ const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=67
 const hamburgerButton = document.querySelector('.mobileSearch__hamburger')
 const hamburgerBar = document.querySelectorAll('.hamburger__bar')
 const body = document.querySelector('.body')
+const movieSection = document.querySelector('.movies')
 
 // Event Listeners
 hamburgerButton.addEventListener('click', hamburgerToggle)
@@ -24,7 +25,7 @@ function hamburgerToggle() {
     hamburgerButton.classList.toggle('active')
 
     if (hamburgerButton.classList.contains('active')) {
-        fetchTrending(body, imageURL)
+        fetchTrending(movieSection, imageURL)
     } else {
         removeDiv('movieModeContainer')
     }
@@ -47,13 +48,11 @@ function fetchTrending(appendDestination, imageURLSize) {
             const movies = data.results;
             buildMovieObjects(movies)             
             // call function to create div/posters and append to DOM
-            
             movieObjectArray.forEach(element => {
                 let wow = element.createMovieBlock.bind(element)
-                wow(imageURLSize)
+                wow(imageURLSize, appendDestination)
             });
-
-            let bang = movieObjectArray[0].show.bind(movieObjectArray[0])
+            let bang = movieObjectArray[0].print.bind(movieObjectArray[0])
             bang()
         
             console.log(movieObjectArray[0]);
@@ -79,7 +78,7 @@ class movie {
         this.popularity = individualMovieData.popularity
         this.language = individualMovieData.original_language
         this.releaseDate = individualMovieData.release_date
-        this.posterPath = individualMovieData.posterPath
+        this.posterPath = individualMovieData.poster_path
         this.backdropPath = individualMovieData.backdrop_path
         this.description = individualMovieData.overview
     }
@@ -90,10 +89,10 @@ class movie {
     }
 
     print() {
-        console.log(this.posterPath);
+        console.log(this.backdropPath);
     }
 
-    createMovieBlock(imageURLSize) {        
+    createMovieBlock(imageURLSize, appendDestination) {        
         // Create Div & change class
         const movieElement = document.createElement('div')
         movieElement.className = 'movieModeContainer'
@@ -105,7 +104,7 @@ class movie {
         movieElement.innerHTML = movieTemplate
         
         
-        body.appendChild(movieElement)
+        appendDestination.appendChild(movieElement)
     }
 
     movieImages(imageURLSize) {

@@ -26,6 +26,8 @@ body, html {
     height: 100%;
     width: 100%;
     font-family: 'Open Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Mobile hamburger menu */
@@ -70,4 +72,25 @@ body, html {
     
     .hamburger__bar.active:nth-child(3) {
         transform: rotate(-45deg) translateY(-11px)
+    }
+
+    /* Navbar */
+
+    .navbar {
+        width: 100%;
+        border: red 2px dashed;
+    }
+
+    /* Movie Div */
+
+    .movies {
+        width: 100%;
+        border: red 2px solid;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .moviePosters {
+        margin: 3px 3px 0px 3px;
     }
