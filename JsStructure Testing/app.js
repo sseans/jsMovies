@@ -1,4 +1,5 @@
 // Variables
+let movieObjectArray = []
 const defaultURL = 'https://api.themoviedb.org/3/movie/550?api_key=672afe6c70446d4ff7c242f8bb0a3609'
 const API_KEY = '672afe6c70446d4ff7c242f8bb0a3609'
 const searchURL = 'https://api.themoviedb.org/3/search/movie?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
@@ -44,63 +45,155 @@ function fetchTrending(appendDestination, imageURLSize) {
         .then((data) => {
             // data.results [] data is returned as an Array
             const movies = data.results;
+            buildMovieObjects(movies)             
             // call function to create div/posters and append to DOM
-            const movieBlock = createMovieContainer(movies, imageURLSize)
-            appendDestination.appendChild(movieBlock)
-            // Log json data
-            console.log('Data: ', data);
+            
+            movieObjectArray.forEach(element => {
+                let wow = element.createMovieBlock.bind(element)
+                wow(imageURLSize)
+            });
+
+            let bang = movieObjectArray[0].show.bind(movieObjectArray[0])
+            bang()
+        
+            console.log(movieObjectArray[0]);
+            
         })
         .catch((error) => {
             console.log('Error: ', error);
         });
 }
 
-function fetchMovieSearch(imageURLSize) {
-    // Add input from text field to fetch URL
-    let inputValue = inputElement.value
-    let valueAddedUrl = searchURL + inputValue    
-
-    fetch(valueAddedUrl)
-        .then((res) => res.json())
-        .then((data) => {
-            // data.results [] data is returned as an Array
-            const movies = data.results;
-            // call function to create div/posters and append to DOM
-            const movieBlock = createMovieContainer(movies, imageURLSize)
-            bodyWrapper.appendChild(movieBlock)
-            // Log json data
-            console.log('Data: ', data);
-        })
-        .catch((error) => {
-            console.log('Error: ', error);
-        });
-}
-
-function createMovieContainer(movies, imageURLSize) {
-    // Create Div & change class
-    const movieElement = document.createElement('div')
-    movieElement.className = 'movieModeContainer'
-
-    // Create HTML Template with poster images
-    let movieTemplate = `${movieImages(movies, imageURLSize)}`;
-
-    // Add template to div HTML
-    movieElement.innerHTML = movieTemplate
+function buildMovieObjects(data) {
+    data.forEach(element => movieObjectArray.push(new movie(element))) 
+    console.log(movieObjectArray);
     
-    return movieElement;
 }
 
-function movieImages(movies, imageURLSize) {
-    // Loops through movies (data.results)
-    return movies.map((movie) => {
+class movie {
+    constructor(individualMovieData) {
+        this.title = individualMovieData.title
+        this.id = individualMovieData.id
+        this.rating = individualMovieData.vote_average
+        this.numberOfRatings = individualMovieData.vote_count
+        this.popularity = individualMovieData.popularity
+        this.language = individualMovieData.original_language
+        this.releaseDate = individualMovieData.release_date
+        this.posterPath = individualMovieData.posterPath
+        this.backdropPath = individualMovieData.backdrop_path
+        this.description = individualMovieData.overview
+    }
+
+    show() {
+        console.log(this);
+        
+    }
+
+    print() {
+        console.log(this.posterPath);
+    }
+
+    createMovieBlock(imageURLSize) {        
+        // Create Div & change class
+        const movieElement = document.createElement('div')
+        movieElement.className = 'movieModeContainer'
+
+        // Create HTML Template with poster images
+        let movieTemplate = `${this.movieImages(imageURLSize)}`;
+
+        // Add template to div HTML
+        movieElement.innerHTML = movieTemplate
+        
+        
+        body.appendChild(movieElement)
+    }
+
+    movieImages(imageURLSize) {
         // only returns html template literal (backtick) if there is a poster img
-        if (movie.poster_path == null) {
+        if (this.posterPath == null) {
             return
         } else {
             return `<div class='moviePosters'>
-                        <img src=${imageURLSize + movie.poster_path} data-movie-id=${movie.id}/>
+                        <img src=${imageURLSize + this.posterPath} data-movie-id=${this.id}/>
                     </div>`;
         }
-        // .map adds a comma between each element, this is to remove that
-    }).join('')
+    }
 }
+
+
+
+
+// class person {
+//     constructor(name) {
+//         this.name = 'J. P. Knight.'
+//     }
+
+//     sayName() {
+//         console.log(this.name);
+        
+//     }
+
+//     showMeThis() {
+//         console.log(this);
+        
+//     }
+// }
+
+// let wow = new person('tommy')
+
+// wow.sayName
+
+// wow.showMeThis
+
+
+
+
+// function fetchMovieSearch(imageURLSize) {
+//     // Add input from text field to fetch URL
+//     let inputValue = inputElement.value
+//     let valueAddedUrl = searchURL + inputValue    
+
+//     fetch(valueAddedUrl)
+//         .then((res) => res.json())
+//         .then((data) => {
+//             // data.results [] data is returned as an Array
+//             const movies = data.results;
+//             // call function to create div/posters and append to DOM
+//             const movieBlock = createMovieContainer(movies, imageURLSize)
+//             bodyWrapper.appendChild(movieBlock)
+//             // Log json data
+//             console.log('Data: ', data);
+//         })
+//         .catch((error) => {
+//             console.log('Error: ', error);
+//         });
+// }
+
+// function createMovieContainer(movies, imageURLSize) {
+//     // Create Div & change class
+//     const movieElement = document.createElement('div')
+//     movieElement.className = 'movieModeContainer'
+
+//     // Create HTML Template with poster images
+//     let movieTemplate = `${movieImages(movies, imageURLSize)}`;
+
+//     // Add template to div HTML
+//     movieElement.innerHTML = movieTemplate
+    
+//     return movieElement;
+// }
+
+// function movieImages(movies, imageURLSize) {
+//     // Loops through movies (data.results)
+//     return movies.map((movie) => {
+//         // only returns html template literal (backtick) if there is a poster img
+//         if (movie.poster_path == null) {
+//             return
+//         } else {
+//             return `<div class='moviePosters'>
+//                         <img src=${imageURLSize + movie.poster_path} data-movie-id=${movie.id}/>
+//                     </div>`;
+//         }
+//         // .map adds a comma between each element, this is to remove that
+//     }).join('')
+// }
