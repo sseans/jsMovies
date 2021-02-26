@@ -19,16 +19,13 @@ const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=67
     // Main Body Selectors
     const contentDiv = document.querySelector('.content')
 
-const inputElement = document.querySelector('.searchbox__input')
-const searchForm = document.querySelector('.navbar__searchbox')
+    // SearchBar Selectors
+    const inputElement = document.querySelector('.searchbox__input')
+    const searchForm = document.querySelector('.navbar__searchbox')
 
 // Event Listeners
 hamburgerButton.addEventListener('click', hamburgerToggle)
 trendingLink.addEventListener('click', () => fetchTrending(imageURL))
-
-
-// Functions
-
 
 // Mobile hamburger menu
 function hamburgerToggle() {
@@ -57,19 +54,21 @@ function fetchTrending(imageURLSize) {
         });
 }
 
-
+// Utility Functions
 function buildMovieObjects(movieData) {
-    // build new objects from movie data
+    // build new objects from movie data and push to movieObjectArray []
     movieData.forEach(element => movieObjectArray.push(new movie(element)))     
 }
 
 function removeObjects()  {
+    // removes an object off the array until the array.length = 0
     for (let i = 0; movieObjectArray.length > 0; i++) {
         movieObjectArray.pop()
     }
 }
 
 function buildMoviePosterContainerDiv() {
+    // create element => append => return element to be used as appendDestination
     const moviePosterContainer = document.createElement('div')
     moviePosterContainer.className = 'content__container'
     contentDiv.appendChild(moviePosterContainer)
@@ -96,6 +95,7 @@ function removeDiv(className) {
     });
 }
 
+// Classes
 class movie {
     constructor(individualMovieData) {
         this.title = individualMovieData.title
