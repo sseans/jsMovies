@@ -103,7 +103,7 @@ class movie {
         const movieElement = document.createElement('div')
         movieElement.className = 'movieModeContainer'
 
-        // create Event Listener
+        // create Event Listener for clicking each poster
         movieElement.addEventListener('click', () => this.toggleMovieView(movieElement))
 
         // Create HTML Template with poster images
@@ -128,10 +128,32 @@ class movie {
     }
 
     toggleMovieView(movieElement) {
-        let childOfMovieElement =  movieElement.childNodes
-        // Toggle Viewing Class CSS
-        childOfMovieElement[0].classList.toggle('viewing')
-        movieElement.classList.toggle('viewing')
+        
+        const viewModeDiv = document.createElement('div')
+        viewModeDiv.className = 'viewmode'
+
+        let childrenOfMovieElement = movieElement.childNodes
+        let idOfMovie = childrenOfMovieElement[0].children[0].attributes[1].nodeValue
+
+        let viewModeTemplate = `${this.viewModeTemplateMaker(idOfMovie)}`
+
+        viewModeDiv.innerHTML = viewModeTemplate
+
+        movieSection.appendChild(viewModeDiv)
+
+        // let childOfMovieElement =  movieElement.childNodes
+        // // Toggle Viewing Class CSS
+        // childOfMovieElement[0].classList.toggle('viewing')
+        // movieElement.classList.toggle('viewing')
+    }
+
+    viewModeTemplateMaker() {
+        return `
+            <div class='viewmode__card'>
+                <div class='viewmode__poster'><img src=${imageURLLarge + this.posterPath} data-movie-id=${this.id}/></div>
+                <div class='viewmode__info'>${this.description}</div>
+            </div>
+        `
     }
 }
 
