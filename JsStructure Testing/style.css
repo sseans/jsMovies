@@ -28,6 +28,7 @@ body, html {
     font-family: 'Open Sans', sans-serif;
     display: flex;
     flex-direction: column;
+    background-color: var(--modifiedSpaceCadet);
 }
 
 /* Mobile hamburger menu */
@@ -131,6 +132,7 @@ body, html {
         height: 100%;
         background-color: rgba(215,215,215,0.7);
         position: absolute;
+        z-index: 0;
         top: 0;
         left: 0;
         display: flex;
@@ -139,14 +141,17 @@ body, html {
     }
 
     .viewmode__card {
-        width: 90%;
+        width: 93%;
         height: fit-content;
+        position: relative;
+        z-index: 1;
         border-radius: 5px;
-        background-color: rgba(215,215,215);
+        background-color: var(--platinum);
         display: flex;
         align-items: center;
         justify-content: space-between;
         position: relative;
+        pointer-events: none;
     }
 
     .viewmode__poster {
@@ -161,16 +166,23 @@ body, html {
         justify-content: space-around;
         height: 300px;
         margin-right: 20px;
+        font-size: 1.2rem;
     }
 
     .viewmode__infotoolbar {
         display: flex;
         justify-content: space-between;
+        font-size: 1.8rem;
+    }
+
+    .info__title {
+        font-size: 2rem;
+        font-weight: bold;
     }
 
     .rating {
         display: flex;
-        width: 70px;
+        min-width: fit-content;
         justify-content: space-between;
     }
 

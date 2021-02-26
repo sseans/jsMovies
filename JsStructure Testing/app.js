@@ -71,9 +71,6 @@ function buildMovieObjects(data) {
     data.forEach(element => movieObjectArray.push(new movie(element)))     
 }
 
-function addEventListenerToObjects() {
-
-}
 
 class movie {
     constructor(individualMovieData) {
@@ -131,15 +128,13 @@ class movie {
         const viewModeDiv = document.createElement('div')
         viewModeDiv.className = 'viewmode'
 
-        let childrenOfMovieElement = movieElement.childNodes
-        let idOfMovie = childrenOfMovieElement[0].children[0].attributes[1].nodeValue
-
-        let viewModeTemplate = `${this.viewModeTemplateMaker(idOfMovie)}`
+        let viewModeTemplate = `${this.viewModeTemplateMaker()}`
 
         viewModeDiv.innerHTML = viewModeTemplate
 
         movieSection.appendChild(viewModeDiv)
 
+        viewModeDiv.addEventListener('click', () => removeDiv('.viewmode'))
         document.querySelector('.viewmode__hamburger').addEventListener('click', () => removeDiv('.viewmode'))
     }
 
@@ -152,6 +147,7 @@ class movie {
                         <div class='info__title'>${this.title}</div>
                         <div class='rating'>
                         <div class='info__rating'>${this.rating}</div>
+                        <div class='rating__slash'>/</div>
                         <div class='info__numberofratings'>${this.numberOfRatings}</div>
                         </div>
                         <div class='info__language'>${this.language}</div>    
