@@ -47,6 +47,7 @@ function fetchTrending(imageURLSize) {
             const movieData = data.results;
             // Resets Objects => build new movie objects => Creates Movie Poster divs
             removeObjects()
+            removeDiv('.content__container')
             buildMovieObjects(movieData)    
             let appendDestination = buildMoviePosterContainerDiv()                     
             buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
@@ -129,14 +130,13 @@ class movie {
         // Create HTML Template with poster images
         let movieTemplate = `${this.movieImages(imageURLSize)}`;
 
-        // Add template to div HTML
+        // Add template to div HTML & append
         movieElement.innerHTML = movieTemplate
-        
         appendDestination.appendChild(movieElement)
     }
 
     movieImages(imageURLSize) {
-        // only returns html template literal (backtick) if there is a poster img
+        // only returns template literal if there is a poster img
         if (this.posterPath == null) {
             return
         } else {
@@ -146,18 +146,18 @@ class movie {
         }
     }
 
-    toggleMovieView(movieElement) {
+    toggleMovieView() {
+        // Create Div & change class
         const viewModeDiv = document.createElement('div')
         viewModeDiv.className = 'viewmode'
 
+        // Create html Template => add to div innerHTML => append to body 
         let viewModeTemplate = `${this.viewModeTemplateMaker()}`
-
         viewModeDiv.innerHTML = viewModeTemplate
-
         document.body.appendChild(viewModeDiv)
 
-        viewModeDiv.addEventListener('click', () => removeDiv('.viewmode'))
-        document.querySelector('.viewmode__hamburger').addEventListener('click', () => removeDiv('.viewmode'))
+        // viewModeDiv.addEventListener('click', () => removeDiv('.viewmode'))
+        document.querySelector('.viewmode__exitbutton').addEventListener('click', () => removeDiv('.viewmode'))
     }
 
     viewModeTemplateMaker() {
@@ -167,18 +167,19 @@ class movie {
                 <div class='viewmode__info'>
                     <div class='viewmode__infotoolbar'>
                         <div class='info__title'>${this.title}</div>
-                        <div class='rating'>
-                        <div class='info__rating'>${this.rating}</div>
-                        <div class='rating__slash'>/</div>
-                        <div class='info__numberofratings'>${this.numberOfRatings}</div>
-                        </div>
-                        <div class='info__language'>${this.language}</div>    
                     </div>
-                    <div class='info__description'>${this.description}</div>
-                    <div class='info__releasedate'>${this.releaseDate}</div>
-
+                        <div class='rating'>
+                            <div class='info__rating'>${this.rating}</div>
+                            <div class='rating__slash'>/</div>
+                            <div class='info__numberofratings'>${this.numberOfRatings}</div>
+                        </div>
+                        <div class='info__description'>${this.description}</div>
+                        <div class='info__additional'>
+                            <div class='info__releasedate'>${this.releaseDate}</div>
+                            <div class='info__language'>${this.language}</div>    
+                        </div>
                 </div>
-                <div class="viewmode__hamburger">
+                <div class="viewmode__exitbutton">
                     <i class="fas fa-times"></i>
                 </div>
             </div>

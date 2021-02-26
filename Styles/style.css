@@ -599,7 +599,6 @@ body, html {
       -ms-flex-pack: justify;
           justify-content: space-between;
   position: relative;
-  pointer-events: none;
 }
 
 .viewmode__poster {
@@ -622,7 +621,7 @@ body, html {
           flex-direction: column;
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  height: 300px;
+  height: 400px;
   margin-right: 20px;
   font-size: 1.2rem;
 }
@@ -643,6 +642,8 @@ body, html {
 }
 
 .rating {
+  font-size: 1.8rem;
+  width: 125px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -654,14 +655,25 @@ body, html {
           justify-content: space-between;
 }
 
-.viewmode__hamburger {
+.viewmode__exitbutton {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
   position: absolute;
+  width: 35px;
+  height: 35px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
   top: 10px;
   right: 15px;
-  cursor: pointer;
   -webkit-transition: all 300ms ease;
   transition: all 300ms ease;
 }
