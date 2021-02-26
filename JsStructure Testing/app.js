@@ -128,7 +128,6 @@ class movie {
     }
 
     toggleMovieView(movieElement) {
-        
         const viewModeDiv = document.createElement('div')
         viewModeDiv.className = 'viewmode'
 
@@ -141,17 +140,29 @@ class movie {
 
         movieSection.appendChild(viewModeDiv)
 
-        // let childOfMovieElement =  movieElement.childNodes
-        // // Toggle Viewing Class CSS
-        // childOfMovieElement[0].classList.toggle('viewing')
-        // movieElement.classList.toggle('viewing')
+        document.querySelector('.viewmode__hamburger').addEventListener('click', () => removeDiv('.viewmode'))
     }
 
     viewModeTemplateMaker() {
         return `
             <div class='viewmode__card'>
                 <div class='viewmode__poster'><img src=${imageURLLarge + this.posterPath} data-movie-id=${this.id}/></div>
-                <div class='viewmode__info'>${this.description}</div>
+                <div class='viewmode__info'>
+                    <div class='viewmode__infotoolbar'>
+                        <div class='info__title'>${this.title}</div>
+                        <div class='rating'>
+                        <div class='info__rating'>${this.rating}</div>
+                        <div class='info__numberofratings'>${this.numberOfRatings}</div>
+                        </div>
+                        <div class='info__language'>${this.language}</div>    
+                    </div>
+                    <div class='info__description'>${this.description}</div>
+                    <div class='info__releasedate'>${this.releaseDate}</div>
+
+                </div>
+                <div class="viewmode__hamburger">
+                    <i class="fas fa-times"></i>
+                </div>
             </div>
         `
     }

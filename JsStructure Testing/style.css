@@ -140,19 +140,46 @@ body, html {
 
     .viewmode__card {
         width: 90%;
-        height: 80%;
+        height: fit-content;
+        border-radius: 5px;
         background-color: rgba(215,215,215);
         display: flex;
         align-items: center;
         justify-content: space-between;
+        position: relative;
     }
 
     .viewmode__poster {
+        width: fit-content;
+        height: fit-content;
         margin: 20px;
-        border: red 2px solid;
-
     }
 
     .viewmode__info {
-        border: red 2px solid;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        height: 300px;
+        margin-right: 20px;
     }
+
+    .viewmode__infotoolbar {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .rating {
+        display: flex;
+        width: 70px;
+        justify-content: space-between;
+    }
+
+    .viewmode__hamburger {
+        width: fit-content;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        cursor: pointer;
+        transition: all 300ms ease;
+    }
+    
