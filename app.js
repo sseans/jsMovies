@@ -1,4 +1,5 @@
 // Variables
+let movieObjectArray = []
 const defaultURL = 'https://api.themoviedb.org/3/movie/550?api_key=672afe6c70446d4ff7c242f8bb0a3609'
 const API_KEY = '672afe6c70446d4ff7c242f8bb0a3609'
 const searchURL = 'https://api.themoviedb.org/3/search/movie?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
@@ -7,36 +8,27 @@ const imageURLLarge = 'https://image.tmdb.org/t/p/w342/'
 const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=672afe6c70446d4ff7c242f8bb0a3609'
 
 // Selector
-const hamburgerButton = document.querySelector('.mobileSearch__hamburger')
-const dropDown = document.querySelector('.navbar__rightside')
-const hamburgerBar = document.querySelectorAll('.hamburger__bar')
+    // Hamburger Menu Selectors
+    const hamburgerButton = document.querySelector('.mobileSearch__hamburger')
+    const dropDown = document.querySelector('.navbar__rightside')
+    const hamburgerBar = document.querySelectorAll('.hamburger__bar')
 
-const bodyWrapper = document.querySelector('.body__wrapper')
-const featuredSlider = document.querySelector('.featured__slider')
+    // Navbar Menu Link Selectors
+    const trendingLink = document.querySelector('#trendingLink')
 
-const movieButton = document.getElementById('trendingLink')
-const content = document.querySelector('.content')
+    // Main Body Selectors
+    const contentDiv = document.querySelector('.content')
+
 const inputElement = document.querySelector('.searchbox__input')
 const searchForm = document.querySelector('.navbar__searchbox')
 
 // Event Listeners
 hamburgerButton.addEventListener('click', hamburgerToggle)
-movieButton.addEventListener('click', movieMode)
-searchForm.addEventListener('submit', function checkIfPreviouslyUsed(event) {
-                                            // Adds ability to search again from results page without going back
-                                            event.preventDefault();
-                                            if (inputElement.value == '') {
-                                                return
-                                            } else if (document.querySelector('.movieModeContainer') == null){
-                                                movieModeSearch()
-                                            } else {
-                                                removeDiv('movieModeContainer')
-                                                movieModeSearchFromSearchMode()
-                                            }
-                                        })
-document.addEventListener('DOMContentLoaded', fetchTrending(featuredSlider, imageURLLarge))
+trendingLink.addEventListener('click', () => fetchTrending(imageURL))
+
 
 // Functions
+
 
 // Mobile hamburger menu
 function hamburgerToggle() {
@@ -46,117 +38,151 @@ function hamburgerToggle() {
     });
 }
 
-function removeDiv(className) {
-    // Goes through array to remove the div and every child element
-    let elements = document.getElementsByClassName(className);
-    if (elements.length > 0) {
-        elements[0].parentNode.removeChild(elements[0]);
-    }
-}
-
-function moviePosterAnimationPlay() {
-    console.log('animation activated');
-    document.querySelector('.movieModeContainer').id = 'posterAnimationUp';
-}
-
-// Key Functions
-function movieModeSearchFromSearchMode() {
-    // Create movie mode divs
-    setTimeout(fetchMovieSearch(imageURL), 100)
-    setTimeout(() => {
-        inputElement.value = ''
-    }, 300); 
-}
-
-function movieModeSearch(Event) {
-    event.preventDefault();
-    // Play animation / Remove animated divs
-    document.querySelector('.content').id = 'animationUp';
-    setTimeout(function() {removeDiv('content')}, 175);
-    // Create movie mode divs
-    setTimeout(fetchMovieSearch(imageURL), 100)
-    setTimeout(() => {
-        inputElement.value = ''
-    }, 300); 
-}
-
-function movieMode() {
-    // Play animation / Remove animated divs
-    document.querySelector('.content').id = 'animationUp';
-    setTimeout(function() {removeDiv('content')}, 175);
-    // Create movie mode divs
-    setTimeout(fetchTrending(bodyWrapper, imageURL), 100)
-}
-
-
 // Fetch Functions
-function fetchTrending(appendDestination, imageURLSize) {
+function fetchTrending(imageURLSize) {
     fetch(trendingURL)
         .then((res) => res.json())
         .then((data) => {
             // data.results [] data is returned as an Array
-            const movies = data.results;
-            // call function to create div/posters and append to DOM
-            const movieBlock = createMovieContainer(movies, imageURLSize)
-            appendDestination.appendChild(movieBlock)
-            // Log json data
-            console.log('Data: ', data);
-            // Play Animation
-            setTimeout(moviePosterAnimationPlay, 300)
+            const movieData = data.results;
+            // Resets Objects => build new movie objects => Creates Movie Poster divs
+            removeObjects()
+            buildMovieObjects(movieData)    
+            let appendDestination = buildMoviePosterContainerDiv()                     
+            buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
         })
         .catch((error) => {
             console.log('Error: ', error);
         });
 }
 
-function fetchMovieSearch(imageURLSize) {
-    // Add input from text field to fetch URL
-    let inputValue = inputElement.value
-    let valueAddedUrl = searchURL + inputValue    
 
-    fetch(valueAddedUrl)
-        .then((res) => res.json())
-        .then((data) => {
-            // data.results [] data is returned as an Array
-            const movies = data.results;
-            // call function to create div/posters and append to DOM
-            const movieBlock = createMovieContainer(movies, imageURLSize)
-            bodyWrapper.appendChild(movieBlock)
-            // Log json data
-            console.log('Data: ', data);
-            // Play Animation
-            moviePosterAnimationPlay()
-        })
-        .catch((error) => {
-            console.log('Error: ', error);
-        });
+function buildMovieObjects(movieData) {
+    // build new objects from movie data
+    movieData.forEach(element => movieObjectArray.push(new movie(element)))     
 }
 
-function createMovieContainer(movies, imageURLSize) {
-    // Create Div & change class
-    const movieElement = document.createElement('div')
-    movieElement.className = 'movieModeContainer'
+function removeObjects()  {
+    for (let i = 0; movieObjectArray.length > 0; i++) {
+        movieObjectArray.pop()
+    }
+}
 
-    // Create HTML Template with poster images
-    let movieTemplate = `${movieImages(movies, imageURLSize)}`;
-
-    // Add template to div HTML
-    movieElement.innerHTML = movieTemplate
+function buildMoviePosterContainerDiv() {
+    const moviePosterContainer = document.createElement('div')
+    moviePosterContainer.className = 'content__container'
+    contentDiv.appendChild(moviePosterContainer)
     
-    return movieElement;
+    return moviePosterContainer
 }
 
-function movieImages(movies, imageURLSize) {
-    // Loops through movies (data.results)
-    return movies.map((movie) => {
+function buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize) {
+    // Each Function is bound & called from the appropriate movie object in the array
+    movieObjectArray.forEach(element => {
+        let boundFunction = element.createMovieBlock.bind(element)        
+        boundFunction(appendDestination, imageURLSize)
+    });
+    console.log(movieObjectArray);
+}
+
+function removeDiv(className) {
+    // Goes through array to remove the div and every child element
+    let elements = Array.from(document.querySelectorAll(className))
+    elements.forEach(element => {
+        if (elements.length > 0) {
+            element.parentNode.removeChild(element);
+        } 
+    });
+}
+
+class movie {
+    constructor(individualMovieData) {
+        this.title = individualMovieData.title
+        this.id = individualMovieData.id
+        this.rating = individualMovieData.vote_average
+        this.numberOfRatings = individualMovieData.vote_count
+        this.popularity = individualMovieData.popularity
+        this.language = individualMovieData.original_language
+        this.releaseDate = individualMovieData.release_date
+        this.posterPath = individualMovieData.poster_path
+        this.backdropPath = individualMovieData.backdrop_path
+        this.description = individualMovieData.overview
+    }
+
+    show() {
+        console.log(this);
+        
+    }
+
+    print() {
+        console.log(this.backdropPath);
+    }
+
+    createMovieBlock(appendDestination, imageURLSize) {        
+        // Create Div & change class
+        const movieElement = document.createElement('div')
+        movieElement.className = 'moviePosters'
+
+        // create Event Listener for clicking each poster
+        movieElement.addEventListener('click', () => this.toggleMovieView(movieElement))
+
+        // Create HTML Template with poster images
+        let movieTemplate = `${this.movieImages(imageURLSize)}`;
+
+        // Add template to div HTML
+        movieElement.innerHTML = movieTemplate
+        
+        appendDestination.appendChild(movieElement)
+    }
+
+    movieImages(imageURLSize) {
         // only returns html template literal (backtick) if there is a poster img
-        if (movie.poster_path == null) {
+        if (this.posterPath == null) {
             return
         } else {
-            return `<div class='moviePosters'>
-                        <img src=${imageURLSize + movie.poster_path} data-movie-id=${movie.id}/>
-                    </div>`;
+            return `
+                        <img src=${imageURLSize + this.posterPath} data-movie-id=${this.id}/>
+                    `;
         }
-        // .map adds a comma between each element, this is to remove that
-    }).join('')
+    }
+
+    toggleMovieView(movieElement) {
+        const viewModeDiv = document.createElement('div')
+        viewModeDiv.className = 'viewmode'
+
+        let viewModeTemplate = `${this.viewModeTemplateMaker()}`
+
+        viewModeDiv.innerHTML = viewModeTemplate
+
+        document.body.appendChild(viewModeDiv)
+
+        viewModeDiv.addEventListener('click', () => removeDiv('.viewmode'))
+        document.querySelector('.viewmode__hamburger').addEventListener('click', () => removeDiv('.viewmode'))
+    }
+
+    viewModeTemplateMaker() {
+        return `
+            <div class='viewmode__card'>
+                <div class='viewmode__poster'><img src=${imageURLLarge + this.posterPath} data-movie-id=${this.id}/></div>
+                <div class='viewmode__info'>
+                    <div class='viewmode__infotoolbar'>
+                        <div class='info__title'>${this.title}</div>
+                        <div class='rating'>
+                        <div class='info__rating'>${this.rating}</div>
+                        <div class='rating__slash'>/</div>
+                        <div class='info__numberofratings'>${this.numberOfRatings}</div>
+                        </div>
+                        <div class='info__language'>${this.language}</div>    
+                    </div>
+                    <div class='info__description'>${this.description}</div>
+                    <div class='info__releasedate'>${this.releaseDate}</div>
+
+                </div>
+                <div class="viewmode__hamburger">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        `
+    }
 }
+

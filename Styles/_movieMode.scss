@@ -1,7 +1,6 @@
 /* Movie Mode Elements */ 
-.movieModeContainer {
-    opacity: 0;
-    margin: 5%;
+.content__container {
+    margin: 5px;
     width: auto;
     max-width: 1200px;
     display: flex;
@@ -13,4 +12,5 @@
 
 .moviePosters {
     margin: 15px;
+    width: fit-content;
 }
