@@ -26,6 +26,15 @@ const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=67
 // Event Listeners
 hamburgerButton.addEventListener('click', hamburgerToggle)
 trendingLink.addEventListener('click', () => fetchTrending(imageURL))
+searchForm.addEventListener('submit', function checkIfPreviouslyUsed(event) {
+                                            // Adds ability to search again from results page without going back
+                                            event.preventDefault();
+                                            if (inputElement.value == '') {
+                                                return
+                                            } else {
+                                                fetchMovieSearch(imageURL)
+                                            }
+                                        })
 
 // Mobile hamburger menu
 function hamburgerToggle() {
@@ -38,6 +47,28 @@ function hamburgerToggle() {
 // Fetch Functions
 function fetchTrending(imageURLSize) {
     fetch(trendingURL)
+        .then((res) => res.json())
+        .then((data) => {
+            // data.results [] data is returned as an Array
+            const movieData = data.results;
+            // Resets Objects => build new movie objects => Creates Movie Poster divs
+            removeObjects()
+            removeDiv('.content__container')
+            buildMovieObjects(movieData)    
+            let appendDestination = buildMoviePosterContainerDiv()                     
+            buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
+        })
+        .catch((error) => {
+            console.log('Error: ', error);
+        });
+}
+
+function fetchMovieSearch(imageURLSize) {
+    // Add input from text field to fetch URL
+    let inputValue = inputElement.value
+    let valueAddedUrl = searchURL + inputValue
+
+    fetch(valueAddedUrl)
         .then((res) => res.json())
         .then((data) => {
             // data.results [] data is returned as an Array
