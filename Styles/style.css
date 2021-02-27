@@ -224,16 +224,35 @@ body, html {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  height: 80%;
+  height: 60%;
   width: 100%;
   color: white;
+  -webkit-transition: color 250ms ease-in-out;
+  transition: color 250ms ease-in-out;
   font-size: 1.2rem;
   cursor: pointer;
-  border-bottom: 3px transparent solid;
+  position: relative;
+}
+
+.navbar__link::after {
+  position: absolute;
+  content: '';
+  background: var(--raspberry);
+  height: 2px;
+  bottom: 0;
+  -webkit-transition: width 250ms ease-in-out, left 250ms ease-in-out;
+  transition: width 250ms ease-in-out, left 250ms ease-in-out;
+  width: 0;
+  left: 50%;
+}
+
+.navbar__link:hover::after {
+  width: 100%;
+  left: 0;
 }
 
 .navbar__link:hover {
-  border-bottom: var(--raspberry) 3px solid;
+  color: var(--raspberry);
 }
 
 /* Navbar Search */
@@ -379,10 +398,73 @@ body, html {
 }
 
 .moviePosters {
-  margin: 15px;
+  margin: 10px 10px;
+  border-radius: 10px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  height: 275px;
+  -webkit-transition: -webkit-transform 200ms ease-in-out;
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.moviePosters::after {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  height: 0;
+  background: #db2955;
+  background: -webkit-gradient(linear, left bottom, left top, from(#db2955), to(rgba(219, 41, 85, 0)));
+  background: linear-gradient(0deg, #db2955 0%, rgba(219, 41, 85, 0) 100%);
+  opacity: 0.7;
+  -webkit-transition: height 200ms ease;
+  transition: height 200ms ease;
+}
+
+.moviePosters:hover::after {
+  height: 100%;
+}
+
+.moviePosters:hover {
+  -webkit-transform: scale(1.025);
+          transform: scale(1.025);
+}
+
+.moviePosters__info {
+  display: none;
+  position: absolute;
+  z-index: 99;
+  bottom: 10px;
+  left: 10px;
+  width: 100%;
+  color: var(--platinum);
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  font-size: 0.7rem;
+}
+
+.moviePosters__info .fa-star {
+  margin-right: 5px;
+  font-size: 1rem;
+}
+
+.moviePosters:hover .moviePosters__info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 /* Mobile Media Query */

@@ -67,16 +67,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 80%;
+    height: 60%;
     width: 100%;
     color: white;
+    transition: color 250ms ease-in-out;
     font-size: 1.2rem;
     cursor: pointer;
-    border-bottom: 3px transparent solid;
-}
+    position: relative;
 
-.navbar__link:hover {
-    border-bottom: var(--raspberry) 3px solid;
+    &::after {
+        position: absolute;
+        content: '';
+        background: var(--raspberry);
+        height: 2px;
+        bottom: 0;
+        transition: width 250ms ease-in-out, left 250ms ease-in-out;
+        width: 0;
+        left: 50%;
+    }
+
+    &:hover::after {
+        width: 100%;
+        left: 0;
+    }
+
+    &:hover {
+        color: var(--raspberry);
+    }
 }
 
 /* Navbar Search */

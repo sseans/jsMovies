@@ -35,6 +35,7 @@ searchForm.addEventListener('submit', function checkIfPreviouslyUsed(event) {
                                                 fetchMovieSearch(imageURL)
                                             }
                                         })
+document.addEventListener('DOMContentLoaded', sliderLoad)
 
 // Mobile hamburger menu
 function hamburgerToggle() {
@@ -43,6 +44,12 @@ function hamburgerToggle() {
         bar.classList.toggle('active')
     });
 }
+
+// Slider Functions 
+function sliderLoad() {
+    fetchSlider()
+}
+
 
 // Fetch Functions
 function fetchTrending(imageURLSize) {
@@ -67,6 +74,7 @@ function fetchMovieSearch(imageURLSize) {
     // Add input from text field to fetch URL
     let inputValue = inputElement.value
     let valueAddedUrl = searchURL + inputValue
+    inputElement.value = ''
 
     fetch(valueAddedUrl)
         .then((res) => res.json())
@@ -79,6 +87,25 @@ function fetchMovieSearch(imageURLSize) {
             buildMovieObjects(movieData)    
             let appendDestination = buildMoviePosterContainerDiv()                     
             buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
+        })
+        .catch((error) => {
+            console.log('Error: ', error);
+        });
+}
+
+function fetchSlider() {
+    fetch(trendingURL)
+        .then((res) => res.json())
+        .then((data) => {
+            // data.results [] data is returned as an Array
+            const movieData = data.results;
+            // Resets Objects => build new movie objects => Creates Movie Poster divs
+            removeObjects()
+            buildMovieObjects(movieData)    
+            console.log(movieObjectArray);
+            console.log('poop');
+            
+            
         })
         .catch((error) => {
             console.log('Error: ', error);
@@ -151,28 +178,74 @@ class movie {
     }
 
     createMovieBlock(appendDestination, imageURLSize) {        
-        // Create Div & change class
-        const movieElement = document.createElement('div')
-        movieElement.className = 'moviePosters'
+        let movieTemplate = undefined
+        let movieElement = undefined
 
-        // create Event Listener for clicking each poster
-        movieElement.addEventListener('click', () => this.toggleMovieView(movieElement))
+        if (imageURLSize > 1000 || imageURLSize == 'original') {
+            // Create Div & change class
+            movieElement = document.createElement('div')
+            movieElement.className = 'movieBackdrops'
 
-        // Create HTML Template with poster images
-        let movieTemplate = `${this.movieImages(imageURLSize)}`;
+            // create Event Listener for clicking each backdrop
+            movieElement.addEventListener('click', () => this.toggleMovieView(movieElement))
 
-        // Add template to div HTML & append
-        movieElement.innerHTML = movieTemplate
-        appendDestination.appendChild(movieElement)
+            // Create HTML Template with backdrop images
+            movieTemplate = `${this.movieBackdrop(imageURLSize)}`;
+
+            // Delete moviePosters div if there is no posterpath in this object
+            if (this.movieBackdrop() == null) {
+                movieElement.parentNode.removeChild(movieElement)
+            }
+
+            // Add template to div HTML & append
+            movieElement.innerHTML = movieTemplate
+            appendDestination.appendChild(movieElement)
+
+        } else {
+            // Create Div & change class
+            movieElement = document.createElement('div')
+            movieElement.className = 'moviePosters'
+
+            // create Event Listener for clicking each poster
+            movieElement.addEventListener('click', () => this.toggleMovieView(movieElement))
+
+            // Create HTML Template with poster images
+            movieTemplate = `${this.movieImages(imageURLSize)}`;
+
+            // Delete moviePoster div if there is no posterpath in this object
+            if (this.movieImages() == null) {
+                movieElement.parentNode.removeChild(movieElement)
+            }
+
+            // Add template to div HTML & append
+            movieElement.innerHTML = movieTemplate
+            appendDestination.appendChild(movieElement)
+        }
+
+    }
+
+    movieBackdrop() {
+        // only returns template literal if there is a poster img
+        if (this.posterPath == null) {
+            return null
+        } else {
+            return `
+                        <img class='backdropimage' src=${imageURLSize + this.backdropPath} data-movie-id=${this.id}/>
+                    `;
+        }
     }
 
     movieImages(imageURLSize) {
         // only returns template literal if there is a poster img
         if (this.posterPath == null) {
-            return
+            return null
         } else {
             return `
-                        <img src=${imageURLSize + this.posterPath} data-movie-id=${this.id}/>
+                        <img class='posterimage' src=${imageURLSize + this.posterPath} data-movie-id=${this.id}/>
+                        <div class='moviePosters__info'>
+                        <i class="fas fa-star"></i>
+                        <h1>${this.rating}</h1>
+                        </div>
                     `;
         }
     }

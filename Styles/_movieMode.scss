@@ -11,6 +11,59 @@
 }
 
 .moviePosters {
-    margin: 15px;
+    margin: 10px 10px;
+    border-radius: 10px;
     width: fit-content;
+    height: 275px;
+    transition: transform 200ms ease-in-out;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    
+
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        left: 0;
+        bottom: 0;
+        height: 0;
+        background: rgb(219,41,85);
+        background: linear-gradient(0deg, rgba(219,41,85,1) 0%, rgba(219,41,85,0) 100%);
+
+        opacity: 0.7;
+        transition: height 200ms ease;
+    }
+    
+    &:hover::after{
+        height: 100%;
+    }
+
+    &:hover {
+        transform: scale(1.025);
+    }
+}
+
+.moviePosters__info {
+    display: none;
+    position: absolute;
+    z-index: 99;
+    bottom: 10px;
+    left: 10px;
+    width: 100%;
+    color: var(--platinum);
+    height: fit-content;
+    font-size: 0.7rem;
+
+    .fa-star {
+        margin-right: 5px;
+        font-size: 1rem;
+    }
+}
+
+.moviePosters:hover .moviePosters__info {
+    display: flex;
+    align-items: center;
 }
