@@ -5,6 +5,7 @@ const API_KEY = '672afe6c70446d4ff7c242f8bb0a3609'
 const searchURL = 'https://api.themoviedb.org/3/search/movie?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
 const imageURL = 'https://image.tmdb.org/t/p/w185/'
 const imageURLLarge = 'https://image.tmdb.org/t/p/w342/'
+const imageURLBackdrop = 'https://image.tmdb.org/t/p/w1280/'
 const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=672afe6c70446d4ff7c242f8bb0a3609'
 
 // Selector
@@ -47,7 +48,7 @@ function hamburgerToggle() {
 
 // Slider Functions 
 function sliderLoad() {
-    fetchSlider()
+    fetchSlider(imageURLBackdrop)
 }
 
 
@@ -93,7 +94,7 @@ function fetchMovieSearch(imageURLSize) {
         });
 }
 
-function fetchSlider() {
+function fetchSlider(imageURLSize) {
     fetch(trendingURL)
         .then((res) => res.json())
         .then((data) => {
@@ -102,8 +103,8 @@ function fetchSlider() {
             // Resets Objects => build new movie objects => Creates Movie Poster divs
             removeObjects()
             buildMovieObjects(movieData)    
-            console.log(movieObjectArray);
-            console.log('poop');
+            let appendDestination = buildMovieBackdropSliderDiv()                                 
+            buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
             
             
         })
@@ -132,6 +133,32 @@ function buildMoviePosterContainerDiv() {
     contentDiv.appendChild(moviePosterContainer)
     
     return moviePosterContainer
+}
+
+function buildMovieBackdropSliderDiv() {
+    // create element => append => return element to be used as appendDestination
+    const moviePosterContainer = document.createElement('div')
+    moviePosterContainer.className = 'content__container'
+
+    let sliderTemplate = `${sliderTemplateCreator()}`
+
+    moviePosterContainer.innerHTML = sliderTemplate
+
+    contentDiv.appendChild(moviePosterContainer)
+
+    let slider = moviePosterContainer.firstElementChild
+    
+    return slider
+    
+}
+
+function sliderTemplateCreator() {
+    return  `
+            <div class='slider'>
+                <div class='arrowleft'><i class="fas fa-chevron-left"></i></div>
+                <div class='arrowright'><i class="fas fa-chevron-right"></i></div>
+            </div>
+            `
 }
 
 function buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize) {
@@ -181,7 +208,7 @@ class movie {
         let movieTemplate = undefined
         let movieElement = undefined
 
-        if (imageURLSize > 1000 || imageURLSize == 'original') {
+        if (imageURLSize == 'https://image.tmdb.org/t/p/w1280/') {
             // Create Div & change class
             movieElement = document.createElement('div')
             movieElement.className = 'movieBackdrops'
@@ -224,7 +251,7 @@ class movie {
 
     }
 
-    movieBackdrop() {
+    movieBackdrop(imageURLSize) {
         // only returns template literal if there is a poster img
         if (this.posterPath == null) {
             return null
