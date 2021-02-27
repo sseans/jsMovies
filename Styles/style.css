@@ -764,23 +764,107 @@ body, html {
   position: relative;
   width: 1280px;
   overflow: hidden;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
+  height: 675px;
+  border-radius: 15px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.slider::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+  opacity: 0.5;
+  background: #db2955;
+  background: -webkit-gradient(linear, left bottom, left top, from(#db2955), to(rgba(219, 41, 85, 0)));
+  background: linear-gradient(0deg, #db2955 0%, rgba(219, 41, 85, 0) 100%);
+  -webkit-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
+
+.slider:hover::after {
+  opacity: 0.7;
+  height: 60%;
+}
+
+.slider .movieBackdrops {
+  width: 1280px;
+  position: relative;
+  color: white;
+}
+
+.slider .movieBackdrops .backdropinfo {
+  position: absolute;
+  z-index: 1;
+  left: 20px;
+  bottom: 32.5px;
+  font-size: 1.5rem;
+  opacity: 0.9;
 }
 
 .slider .arrowleft {
+  width: 40px;
+  height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
   position: absolute;
-  left: 5px;
-  top: 50%;
+  z-index: 1;
+  left: 15px;
+  top: 45%;
+  font-size: 2.5rem;
+  color: white;
+  -webkit-transition: -webkit-transform 200ms ease-in-out;
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+
+.slider .arrowleft:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
 
 .slider .arrowright {
+  width: 40px;
+  height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
   position: absolute;
-  right: 5px;
-  top: 50%;
+  z-index: 1;
+  right: 15px;
+  top: 45%;
+  font-size: 2.5rem;
+  color: white;
+  -webkit-transition: -webkit-transform 200ms ease-in-out;
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+
+.slider .arrowright:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
 }
 /*# sourceMappingURL=style.css.map */

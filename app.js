@@ -1,5 +1,6 @@
 // Variables
 let movieObjectArray = []
+let sliderObjectArray = []
 const defaultURL = 'https://api.themoviedb.org/3/movie/550?api_key=672afe6c70446d4ff7c242f8bb0a3609'
 const API_KEY = '672afe6c70446d4ff7c242f8bb0a3609'
 const searchURL = 'https://api.themoviedb.org/3/search/movie?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
@@ -102,9 +103,19 @@ function fetchSlider(imageURLSize) {
             const movieData = data.results;
             // Resets Objects => build new movie objects => Creates Movie Poster divs
             removeObjects()
-            buildMovieObjects(movieData)    
+            buildMovieObjects(movieData)
+
+            sliderObjectArray = movieObjectArray.filter((x) => {
+                if (x.numberOfRatings > 500) {
+                    return true
+                }
+            })
+            
+            console.log(sliderObjectArray);
+            
+
             let appendDestination = buildMovieBackdropSliderDiv()                                 
-            buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
+            buildMovieBackdropWithEachMovieObject(appendDestination, imageURLSize)
             
             
         })
@@ -164,6 +175,15 @@ function sliderTemplateCreator() {
 function buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize) {
     // Each Function is bound & called from the appropriate movie object in the array
     movieObjectArray.forEach(element => {
+        let boundFunction = element.createMovieBlock.bind(element)        
+        boundFunction(appendDestination, imageURLSize)
+    });
+    console.log(movieObjectArray);
+}
+
+function buildMovieBackdropWithEachMovieObject(appendDestination, imageURLSize) {
+    // Each Function is bound & called from the appropriate movie object in the array
+    sliderObjectArray.forEach(element => {
         let boundFunction = element.createMovieBlock.bind(element)        
         boundFunction(appendDestination, imageURLSize)
     });
@@ -256,9 +276,13 @@ class movie {
         if (this.posterPath == null) {
             return null
         } else {
-            return `
-                        <img class='backdropimage' src=${imageURLSize + this.backdropPath} data-movie-id=${this.id}/>
-                    `;
+            return `    <div class='backdropimage'>
+                            <img src=${imageURLSize + this.backdropPath} data-movie-id=${this.id}/>
+                            <div class='backdropinfo'>
+                                <h1>${this.title}</h1>
+                            </div>
+                        </div>
+                    `;  
         }
     }
 
