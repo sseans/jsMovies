@@ -1,13 +1,13 @@
 // Variables
-let movieObjectArray = []
-let sliderObjectArray = []
-const defaultURL = 'https://api.themoviedb.org/3/movie/550?api_key=672afe6c70446d4ff7c242f8bb0a3609'
-const API_KEY = '672afe6c70446d4ff7c242f8bb0a3609'
-const searchURL = 'https://api.themoviedb.org/3/search/movie?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
-const imageURL = 'https://image.tmdb.org/t/p/w185/'
-const imageURLLarge = 'https://image.tmdb.org/t/p/w342/'
-const imageURLBackdrop = 'https://image.tmdb.org/t/p/w1280/'
-const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=672afe6c70446d4ff7c242f8bb0a3609'
+    let movieObjectArray = []
+    let sliderObjectArray = []
+    const defaultURL = 'https://api.themoviedb.org/3/movie/550?api_key=672afe6c70446d4ff7c242f8bb0a3609'
+    const API_KEY = '672afe6c70446d4ff7c242f8bb0a3609'
+    const searchURL = 'https://api.themoviedb.org/3/search/movie?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
+    const imageURL = 'https://image.tmdb.org/t/p/w185/'
+    const imageURLLarge = 'https://image.tmdb.org/t/p/w342/'
+    const imageURLBackdrop = 'https://image.tmdb.org/t/p/w1280/'
+    const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=672afe6c70446d4ff7c242f8bb0a3609'
 
 // Selector
     // Hamburger Menu Selectors
@@ -26,42 +26,88 @@ const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=67
     const searchForm = document.querySelector('.navbar__searchbox')
 
 // Event Listeners
-hamburgerButton.addEventListener('click', hamburgerToggle)
-trendingLink.addEventListener('click', () => fetchTrending(imageURL))
-searchForm.addEventListener('submit', function checkIfPreviouslyUsed(event) {
-                                            // Adds ability to search again from results page without going back
-                                            event.preventDefault();
-                                            if (inputElement.value == '') {
-                                                return
-                                            } else {
-                                                fetchMovieSearch(imageURL)
-                                            }
-                                        })
-document.addEventListener('DOMContentLoaded', sliderLoad)
+    hamburgerButton.addEventListener('click', hamburgerToggle)
+    trendingLink.addEventListener('click', () => fetchTrending(imageURL))
+    searchForm.addEventListener('submit', function checkIfPreviouslyUsed(event) {
+                                                // Adds ability to search again from results page without going back
+                                                event.preventDefault();
+                                                if (inputElement.value == '') {
+                                                    return
+                                                } else {
+                                                    fetchMovieSearch(imageURL)
+                                                }
+                                            })
+    document.addEventListener('DOMContentLoaded', () => fetchSlider(imageURLBackdrop))
 
 // Mobile hamburger menu
-function hamburgerToggle() {
-    dropDown.classList.toggle('active')
-    hamburgerBar.forEach(bar => {
-        bar.classList.toggle('active')
-    });
-}
+    function hamburgerToggle() {
+        dropDown.classList.toggle('active')
+        hamburgerBar.forEach(bar => {
+            bar.classList.toggle('active')
+        });
+    }
 
 // Slider Functions 
-function sliderLoad() {
-    fetchSlider(imageURLBackdrop)
-}
+    function fetchSlider(imageURLSize) {
+        fetch(trendingURL)
+            .then((res) => res.json())
+            .then((data) => {
+                // data.results [] data is returned as an Array
+                const movieData = data.results;
+                // Resets Objects => build new movie objects => Creates Movie Poster divs
+                removeObjects()
+                removeSliderObjects()
+                removeDiv('.content__container')
+                buildMovieObjects(movieData)
+                buildSliderObjectsFromMovieObjects()
+                let appendDestination = buildMovieBackdropSliderDiv()                                 
+                sliderActive(appendDestination, imageURLSize)
+                
+            })
+            .catch((error) => {
+                console.log('Error: ', error);
+            });
+    }
+        
+    function buildMovieBackdropSliderDiv() {
+        // create element => append => return element to be used as appendDestination
+        const moviePosterContainer = document.createElement('div')
+        moviePosterContainer.className = 'content__container'
 
+        let sliderTemplate = `  <div class='slider'>
+                                    <div class='arrowleft'><i class="fas fa-chevron-left"></i></div>
+                                    <div class='arrowright'><i class="fas fa-chevron-right"></i></div>
+                                </div>`
+
+        moviePosterContainer.innerHTML = sliderTemplate
+        
+        contentDiv.appendChild(moviePosterContainer)
+        
+        let slider = moviePosterContainer.firstElementChild
+        
+        return slider
+        
+    }
+
+    function sliderActive(appendDestination, imageURLSize) {
+        let boundFunction = sliderObjectArray[0].createMovieSlide.bind(sliderObjectArray[0])
+        let initalSlide = boundFunction(imageURLSize)
+        
+        
+        appendDestination.appendChild(initalSlide)
+        
+    }
 
 // Fetch Functions
-function fetchTrending(imageURLSize) {
-    fetch(trendingURL)
+    function fetchTrending(imageURLSize) {
+        fetch(trendingURL)
         .then((res) => res.json())
         .then((data) => {
             // data.results [] data is returned as an Array
             const movieData = data.results;
             // Resets Objects => build new movie objects => Creates Movie Poster divs
             removeObjects()
+            removeSliderObjects()
             removeDiv('.content__container')
             buildMovieObjects(movieData)    
             let appendDestination = buildMoviePosterContainerDiv()                     
@@ -70,135 +116,92 @@ function fetchTrending(imageURLSize) {
         .catch((error) => {
             console.log('Error: ', error);
         });
-}
-
-function fetchMovieSearch(imageURLSize) {
-    // Add input from text field to fetch URL
-    let inputValue = inputElement.value
-    let valueAddedUrl = searchURL + inputValue
-    inputElement.value = ''
-
-    fetch(valueAddedUrl)
-        .then((res) => res.json())
-        .then((data) => {
-            // data.results [] data is returned as an Array
-            const movieData = data.results;
-            // Resets Objects => build new movie objects => Creates Movie Poster divs
-            removeObjects()
-            removeDiv('.content__container')
-            buildMovieObjects(movieData)    
-            let appendDestination = buildMoviePosterContainerDiv()                     
-            buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
-        })
-        .catch((error) => {
-            console.log('Error: ', error);
-        });
-}
-
-function fetchSlider(imageURLSize) {
-    fetch(trendingURL)
-        .then((res) => res.json())
-        .then((data) => {
-            // data.results [] data is returned as an Array
-            const movieData = data.results;
-            // Resets Objects => build new movie objects => Creates Movie Poster divs
-            removeObjects()
-            buildMovieObjects(movieData)
-
-            sliderObjectArray = movieObjectArray.filter((x) => {
-                if (x.numberOfRatings > 500) {
-                    return true
-                }
-            })
-            
-            console.log(sliderObjectArray);
-            
-
-            let appendDestination = buildMovieBackdropSliderDiv()                                 
-            buildMovieBackdropWithEachMovieObject(appendDestination, imageURLSize)
-            
-            
-        })
-        .catch((error) => {
-            console.log('Error: ', error);
-        });
-}
-
-// Utility Functions
-function buildMovieObjects(movieData) {
-    // build new objects from movie data and push to movieObjectArray []
-    movieData.forEach(element => movieObjectArray.push(new movie(element)))     
-}
-
-function removeObjects()  {
-    // removes an object off the array until the array.length = 0
-    for (let i = 0; movieObjectArray.length > 0; i++) {
-        movieObjectArray.pop()
     }
-}
 
-function buildMoviePosterContainerDiv() {
-    // create element => append => return element to be used as appendDestination
-    const moviePosterContainer = document.createElement('div')
-    moviePosterContainer.className = 'content__container'
-    contentDiv.appendChild(moviePosterContainer)
-    
-    return moviePosterContainer
-}
+    function fetchMovieSearch(imageURLSize) {
+        // Add input from text field to fetch URL
+        let inputValue = inputElement.value
+        let valueAddedUrl = searchURL + inputValue
+        inputElement.value = ''
+        
+        fetch(valueAddedUrl)
+        .then((res) => res.json())
+        .then((data) => {
+            // data.results [] data is returned as an Array
+            const movieData = data.results;
+            // Resets Objects => build new movie objects => Creates Movie Poster divs
+            removeObjects()
+            removeSliderObjects()
+            removeDiv('.content__container')
+            buildMovieObjects(movieData)    
+            let appendDestination = buildMoviePosterContainerDiv()                     
+            buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
+        })
+        .catch((error) => {
+            console.log('Error: ', error);
+        });
+    }
 
-function buildMovieBackdropSliderDiv() {
-    // create element => append => return element to be used as appendDestination
-    const moviePosterContainer = document.createElement('div')
-    moviePosterContainer.className = 'content__container'
 
-    let sliderTemplate = `${sliderTemplateCreator()}`
+// Object Array Functions
+    function buildMovieObjects(movieData) {
+        // build new objects from movie data and push to movieObjectArray []
+        movieData.forEach(element => movieObjectArray.push(new movie(element)))     
+    }
 
-    moviePosterContainer.innerHTML = sliderTemplate
+    function buildSliderObjectsFromMovieObjects() {
+        sliderObjectArray = movieObjectArray.filter((x) => {
+            if (x.numberOfRatings > 500) {
+                return true
+            }
+        })
+        console.log(sliderObjectArray);
+    }
 
-    contentDiv.appendChild(moviePosterContainer)
+    function removeObjects()  {
+        // removes an object off the array until the array.length = 0
+        for (let i = 0; movieObjectArray.length > 0; i++) {
+            movieObjectArray.pop()
+        }
+    }
 
-    let slider = moviePosterContainer.firstElementChild
-    
-    return slider
-    
-}
+    function removeSliderObjects() {
+        // removes an object off the array until the array.length = 0
+        for (let i = 0; sliderObjectArray.length > 0; i++) {
+            sliderObjectArray.pop()
+        }
+    }
 
-function sliderTemplateCreator() {
-    return  `
-            <div class='slider'>
-                <div class='arrowleft'><i class="fas fa-chevron-left"></i></div>
-                <div class='arrowright'><i class="fas fa-chevron-right"></i></div>
-            </div>
-            `
-}
+// Movie Poster Functions
+    function buildMoviePosterContainerDiv() {
+        // create element => append => return element to be used as appendDestination
+        const moviePosterContainer = document.createElement('div')
+        moviePosterContainer.className = 'content__container'
+        contentDiv.appendChild(moviePosterContainer)
+        
+        return moviePosterContainer
+    }
 
-function buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize) {
-    // Each Function is bound & called from the appropriate movie object in the array
-    movieObjectArray.forEach(element => {
-        let boundFunction = element.createMovieBlock.bind(element)        
-        boundFunction(appendDestination, imageURLSize)
-    });
-    console.log(movieObjectArray);
-}
+    function buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize) {
+        // Each Function is bound & called from the appropriate movie object in the array
+        movieObjectArray.forEach(element => {
+            let boundFunction = element.createMovieBlock.bind(element)        
+            boundFunction(appendDestination, imageURLSize)
+        });
+        console.log(movieObjectArray);
+    }
 
-function buildMovieBackdropWithEachMovieObject(appendDestination, imageURLSize) {
-    // Each Function is bound & called from the appropriate movie object in the array
-    sliderObjectArray.forEach(element => {
-        let boundFunction = element.createMovieBlock.bind(element)        
-        boundFunction(appendDestination, imageURLSize)
-    });
-    console.log(movieObjectArray);
-}
 
-function removeDiv(className) {
-    // Goes through array to remove the div and every child element
-    let elements = Array.from(document.querySelectorAll(className))
-    elements.forEach(element => {
-        if (elements.length > 0) {
-            element.parentNode.removeChild(element);
-        } 
-    });
-}
+// Utility Functions (Various Operations)
+    function removeDiv(className) {
+        // Goes through array to remove the div and every child element
+        let elements = Array.from(document.querySelectorAll(className))
+        elements.forEach(element => {
+            if (elements.length > 0) {
+                element.parentNode.removeChild(element);
+            } 
+        });
+    }
 
 // Classes
 class movie {
@@ -218,10 +221,6 @@ class movie {
     show() {
         console.log(this);
         
-    }
-
-    print() {
-        console.log(this.backdropPath);
     }
 
     createMovieBlock(appendDestination, imageURLSize) {        
@@ -270,34 +269,44 @@ class movie {
         }
 
     }
-
-    movieBackdrop(imageURLSize) {
-        // only returns template literal if there is a poster img
-        if (this.posterPath == null) {
-            return null
-        } else {
-            return `    <div class='backdropimage'>
-                            <img src=${imageURLSize + this.backdropPath} data-movie-id=${this.id}/>
-                            <div class='backdropinfo'>
-                                <h1>${this.title}</h1>
-                            </div>
-                        </div>
-                    `;  
-        }
-    }
-
+    
     movieImages(imageURLSize) {
         // only returns template literal if there is a poster img
         if (this.posterPath == null) {
             return null
         } else {
             return `
-                        <img class='posterimage' src=${imageURLSize + this.posterPath} data-movie-id=${this.id}/>
-                        <div class='moviePosters__info'>
-                        <i class="fas fa-star"></i>
-                        <h1>${this.rating}</h1>
+            <img class='posterimage' src=${imageURLSize + this.posterPath} data-movie-id=${this.id}/>
+            <div class='moviePosters__info'>
+            <i class="fas fa-star"></i>
+            <h1>${this.rating}</h1>
+            </div>
+            `;
+        }
+    }
+
+    createMovieSlide(imageURLSize) {
+        let slide = document.createElement('div')
+        slide.className = 'backdropimage'
+
+        let slideTemplate = `${this.movieBackdrop(imageURLSize)}`
+
+        slide.innerHTML = slideTemplate
+
+        return slide 
+    }
+    
+    movieBackdrop(imageURLSize) {
+        // only returns template literal if there is a poster img
+        if (this.backdropPath == null) {
+            return null
+        } else {
+            return `
+                        <img src=${imageURLSize + this.backdropPath} data-movie-id=${this.id}/>
+                        <div class='backdropinfo'>
+                            <h1>${this.title}</h1>
                         </div>
-                    `;
+                    `;  
         }
     }
 

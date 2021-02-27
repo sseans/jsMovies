@@ -793,13 +793,13 @@ body, html {
   height: 60%;
 }
 
-.slider .movieBackdrops {
+.slider .backdropimage {
   width: 1280px;
   position: relative;
   color: white;
 }
 
-.slider .movieBackdrops .backdropinfo {
+.slider .backdropimage .backdropinfo {
   position: absolute;
   z-index: 1;
   left: 20px;
