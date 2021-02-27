@@ -1,0 +1,25 @@
+.slider {
+    position: relative;
+    width: 1280px;
+    overflow: hidden;
+    height: fit-content;
+    display: flex;
+    
+
+    .movieBackdrops {
+
+    }
+
+    .arrowleft {
+        position: absolute;
+        left: 5px;
+        top: 50%;
+    }
+
+    .arrowright {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+    }
+}
+
