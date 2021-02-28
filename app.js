@@ -1,6 +1,9 @@
 // Variables
     let movieObjectArray = []
     let sliderObjectArray = []
+    let preloadSlide = undefined
+    let currentActiveSlide = undefined
+    let unloadSlide = undefined
     const defaultURL = 'https://api.themoviedb.org/3/movie/550?api_key=672afe6c70446d4ff7c242f8bb0a3609'
     const API_KEY = '672afe6c70446d4ff7c242f8bb0a3609'
     const searchURL = 'https://api.themoviedb.org/3/search/movie?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
@@ -90,11 +93,74 @@
     }
 
     function sliderActive(appendDestination, imageURLSize) {
-        let boundFunction = sliderObjectArray[0].createMovieSlide.bind(sliderObjectArray[0])
-        let initalSlide = boundFunction(imageURLSize)
-        
-        
+        let slideNumber = 0
+        let direction = undefined
+
+        // Set initial Slider img + state class
+        let boundCreateFirstSlideFunction = sliderObjectArray[slideNumber].createMovieSlide.bind(sliderObjectArray[slideNumber])
+        let initalSlide = boundCreateFirstSlideFunction(imageURLSize)
+        initalSlide.classList.toggle('active')
         appendDestination.appendChild(initalSlide)
+        
+        currentActiveSlide = initalSlide;
+
+        slideNumber++
+
+        let boundCreateSecondSlideFunction = sliderObjectArray[slideNumber].createMovieSlide.bind(sliderObjectArray[slideNumber])
+        let secondSlide = boundCreateSecondSlideFunction(imageURLSize)
+        secondSlide.classList.toggle('preload')
+        appendDestination.appendChild(secondSlide)
+
+        preloadSlide = secondSlide;
+
+        // Event Listener to identify direction
+        appendDestination.addEventListener('click', (e) => {
+            let clickedItem = e.target;
+            if (clickedItem.classList[1] == 'fa-chevron-right') {
+                slideNumber++
+
+                if (slideNumber == sliderObjectArray.length) {
+                    slideNumber = 0
+                }
+
+                direction = 'right'
+                moveSlider(direction, slideNumber, appendDestination, imageURLSize)
+                
+            } else if (clickedItem.classList[1] == 'fa-chevron-left') {
+                slideNumber--
+
+                direction = 'left'
+                moveSlider(direction, slideNumber, imageURLSize)
+            }
+        })
+        
+    }
+
+    function moveSlider(direction, slideNumber, appendDestination, imageURLSize) {
+        currentActiveSlide.classList.toggle('unload')
+        currentActiveSlide.classList.toggle('active')
+        preloadSlide.classList.toggle('active')
+        preloadSlide.classList.toggle('preload')
+        
+        setTimeout(() => {
+            unloadSlide = currentActiveSlide;
+            currentActiveSlide = preloadSlide
+
+            if (slideNumber == sliderObjectArray.length) {
+                slideNumber = 0
+            }
+
+            let boundCreateSlideFunction = sliderObjectArray[slideNumber].createMovieSlide.bind(sliderObjectArray[slideNumber])
+            let newPreloadSlide = boundCreateSlideFunction(imageURLSize)
+            newPreloadSlide.classList.toggle('preload')
+            appendDestination.appendChild(newPreloadSlide)
+
+            preloadSlide = newPreloadSlide
+        }, 400);
+
+
+        console.log(currentActiveSlide);
+        
         
     }
 
@@ -291,6 +357,9 @@ class movie {
 
         let slideTemplate = `${this.movieBackdrop(imageURLSize)}`
 
+        // create Event Listener for clicking each backdrop
+        slide.addEventListener('click', () => this.toggleMovieView())
+
         slide.innerHTML = slideTemplate
 
         return slide 
@@ -304,6 +373,7 @@ class movie {
             return `
                         <img src=${imageURLSize + this.backdropPath} data-movie-id=${this.id}/>
                         <div class='backdropinfo'>
+                            <p>Trending Movies</p>
                             <h1>${this.title}</h1>
                         </div>
                     `;  

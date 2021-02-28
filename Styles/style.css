@@ -786,6 +786,7 @@ body, html {
   background: linear-gradient(0deg, #db2955 0%, rgba(219, 41, 85, 0) 100%);
   -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
+  pointer-events: none;
 }
 
 .slider:hover::after {
@@ -796,7 +797,10 @@ body, html {
 .slider .backdropimage {
   width: 1280px;
   position: relative;
+  left: auto;
   color: white;
+  -webkit-transition: left 400ms ease;
+  transition: left 400ms ease;
 }
 
 .slider .backdropimage .backdropinfo {
@@ -806,6 +810,27 @@ body, html {
   bottom: 32.5px;
   font-size: 1.5rem;
   opacity: 0.9;
+}
+
+.slider .backdropimage.preload {
+  position: absolute;
+  left: 1280px;
+  -webkit-transition: left 400ms ease;
+  transition: left 400ms ease;
+}
+
+.slider .backdropimage.active {
+  position: absolute;
+  left: 0;
+  -webkit-transition: left 400ms ease;
+  transition: left 400ms ease;
+}
+
+.slider .backdropimage.unload {
+  position: absolute;
+  left: -1280px;
+  -webkit-transition: left 400ms ease;
+  transition: left 400ms ease;
 }
 
 .slider .arrowleft {

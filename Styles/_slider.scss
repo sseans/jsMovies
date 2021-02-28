@@ -17,6 +17,7 @@
         background: rgb(219,41,85);
         background: linear-gradient(0deg, rgba(219,41,85,1) 0%, rgba(219,41,85,0) 100%);
         transition: all 250ms ease-in-out;
+        pointer-events: none;
     }
 
     &:hover::after {
@@ -27,7 +28,9 @@
     .backdropimage {
         width: 1280px;
         position: relative;
+        left: auto;
         color: white;
+        transition: left 400ms ease;
 
         .backdropinfo {
             position: absolute;
@@ -36,10 +39,25 @@
             bottom: 32.5px;
             font-size: 1.5rem;
             opacity: 0.9;
-        
         }
+    }
 
+    .backdropimage.preload {
+        position: absolute;
+        left: 1280px;
+        transition: left 400ms ease;
+    }
 
+    .backdropimage.active {
+        position: absolute;
+        left: 0;
+        transition: left 400ms ease;
+    }
+
+    .backdropimage.unload {
+        position: absolute;
+        left: -1280px;
+        transition: left 400ms ease;
     }
 
     .arrowleft {
