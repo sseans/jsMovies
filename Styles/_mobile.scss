@@ -175,3 +175,40 @@
     }
 
 }
+
+@media screen and (max-width:1215px) {
+    .slider {
+         
+        
+        &::after {
+            
+        }
+    
+        
+    
+        .slider__inner {
+            
+        }
+    
+        .backdropimage {
+            
+    
+            .backdropinfo {
+                font-size: 1.2rem;
+            }
+        }
+    
+        .arrowleft {
+            position: fixed;
+            top: 397px;
+        }
+    
+        .arrowright {
+           position: fixed;
+           top: 397px;
+           right: 30px;
+
+        }
+    
+    }
+}
