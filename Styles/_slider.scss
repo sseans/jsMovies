@@ -1,11 +1,13 @@
 .slider {
     position: relative;
+    z-index: 0;
     width: 1280px;
     overflow: hidden;
     height: 675px;
     border-radius: 15px;
     display: flex;
-    align-items: center;   
+    align-items: center; 
+    transition: all 400ms ease;  
     
     &::after {
         content: '';
@@ -25,6 +27,15 @@
         height: 60%;
     }
 
+    .slider__inner {
+        width: fit-content;
+        display: flex;
+        align-items: center; 
+        position: absolute;
+        left: 0;
+        transition: left 400ms ease;
+    }
+
     .backdropimage {
         width: 1280px;
         position: relative;
@@ -42,24 +53,6 @@
         }
     }
 
-    .backdropimage.preload {
-        position: absolute;
-        left: 1280px;
-        transition: left 400ms ease;
-    }
-
-    .backdropimage.active {
-        position: absolute;
-        left: 0;
-        transition: left 400ms ease;
-    }
-
-    .backdropimage.unload {
-        position: absolute;
-        left: -1280px;
-        transition: left 400ms ease;
-    }
-
     .arrowleft {
         width: 40px;
         height: 40px;
@@ -68,7 +61,7 @@
         align-items: center;
         cursor: pointer;
         position: absolute;
-        z-index: 1;
+        z-index: 99;
         left: 15px;
         top: 45%;
         font-size: 2.5rem;
@@ -88,7 +81,7 @@
         align-items: center;
         cursor: pointer;
         position: absolute;
-        z-index: 1;
+        z-index: 99;
         right: 15px;
         top: 45%;
         font-size: 2.5rem;

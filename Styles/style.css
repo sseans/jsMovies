@@ -762,6 +762,7 @@ body, html {
 
 .slider {
   position: relative;
+  z-index: 0;
   width: 1280px;
   overflow: hidden;
   height: 675px;
@@ -772,6 +773,8 @@ body, html {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-transition: all 400ms ease;
+  transition: all 400ms ease;
 }
 
 .slider::after {
@@ -794,6 +797,22 @@ body, html {
   height: 60%;
 }
 
+.slider .slider__inner {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  left: 0;
+  -webkit-transition: left 400ms ease;
+  transition: left 400ms ease;
+}
+
 .slider .backdropimage {
   width: 1280px;
   position: relative;
@@ -812,27 +831,6 @@ body, html {
   opacity: 0.9;
 }
 
-.slider .backdropimage.preload {
-  position: absolute;
-  left: 1280px;
-  -webkit-transition: left 400ms ease;
-  transition: left 400ms ease;
-}
-
-.slider .backdropimage.active {
-  position: absolute;
-  left: 0;
-  -webkit-transition: left 400ms ease;
-  transition: left 400ms ease;
-}
-
-.slider .backdropimage.unload {
-  position: absolute;
-  left: -1280px;
-  -webkit-transition: left 400ms ease;
-  transition: left 400ms ease;
-}
-
 .slider .arrowleft {
   width: 40px;
   height: 40px;
@@ -847,7 +845,7 @@ body, html {
           align-items: center;
   cursor: pointer;
   position: absolute;
-  z-index: 1;
+  z-index: 99;
   left: 15px;
   top: 45%;
   font-size: 2.5rem;
@@ -877,7 +875,7 @@ body, html {
           align-items: center;
   cursor: pointer;
   position: absolute;
-  z-index: 1;
+  z-index: 99;
   right: 15px;
   top: 45%;
   font-size: 2.5rem;

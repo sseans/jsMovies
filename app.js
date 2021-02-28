@@ -78,6 +78,7 @@
         moviePosterContainer.className = 'content__container'
 
         let sliderTemplate = `  <div class='slider'>
+                                    <div class='slider__inner'></div>
                                     <div class='arrowleft'><i class="fas fa-chevron-left"></i></div>
                                     <div class='arrowright'><i class="fas fa-chevron-right"></i></div>
                                 </div>`
@@ -86,83 +87,233 @@
         
         contentDiv.appendChild(moviePosterContainer)
         
-        let slider = moviePosterContainer.firstElementChild
+        let slider = moviePosterContainer.firstElementChild.firstElementChild
         
         return slider
         
     }
 
     function sliderActive(appendDestination, imageURLSize) {
-        let slideNumber = 0
-        let direction = undefined
-
-        // Set initial Slider img + state class
-        let boundCreateFirstSlideFunction = sliderObjectArray[slideNumber].createMovieSlide.bind(sliderObjectArray[slideNumber])
-        let initalSlide = boundCreateFirstSlideFunction(imageURLSize)
-        initalSlide.classList.toggle('active')
-        appendDestination.appendChild(initalSlide)
-        
-        currentActiveSlide = initalSlide;
-
-        slideNumber++
-
-        let boundCreateSecondSlideFunction = sliderObjectArray[slideNumber].createMovieSlide.bind(sliderObjectArray[slideNumber])
-        let secondSlide = boundCreateSecondSlideFunction(imageURLSize)
-        secondSlide.classList.toggle('preload')
-        appendDestination.appendChild(secondSlide)
-
-        preloadSlide = secondSlide;
-
+        sliderObjectArray.forEach(element => {
+            let boundCreateSliderImages = element.createMovieSlide.bind(element)
+            let slide = boundCreateSliderImages(imageURLSize)
+            appendDestination.appendChild(slide)
+        })
         // Event Listener to identify direction
-        appendDestination.addEventListener('click', (e) => {
+        let leftAmount = 0
+        let maxAmount = (sliderObjectArray.length * 1280 - 1280) * -1
+        appendDestination.parentNode.addEventListener('click', (e) => {
             let clickedItem = e.target;
-            if (clickedItem.classList[1] == 'fa-chevron-right') {
-                slideNumber++
+            console.log(e.target);
+            console.log(maxAmount);
+            
+            
 
-                if (slideNumber == sliderObjectArray.length) {
-                    slideNumber = 0
+            if (clickedItem.classList[1] == 'fa-chevron-right' || clickedItem.classList[0] == 'arrowright') {
+                if (leftAmount <= maxAmount) {
+                    console.log(leftAmount);
+
+                    return
+                } else {
+                    leftAmount -= 1280
+
+                    console.log(leftAmount);
+                    
+                    appendDestination.style.left = `${leftAmount}px`;
                 }
 
-                direction = 'right'
-                moveSlider(direction, slideNumber, appendDestination, imageURLSize)
-                
-            } else if (clickedItem.classList[1] == 'fa-chevron-left') {
-                slideNumber--
+            } else if (clickedItem.classList[1] == 'fa-chevron-left' || clickedItem.classList[0] == 'arrowleft') {
+                if (leftAmount >= 0) {
+                    console.log(leftAmount);
+                    
+                    return
+                } else {
+                    leftAmount += 1280
 
-                direction = 'left'
-                moveSlider(direction, slideNumber, imageURLSize)
+                    console.log(leftAmount);
+                    
+                    appendDestination.style.left = `${leftAmount}px`;
+                }
             }
         })
-        
     }
 
-    function moveSlider(direction, slideNumber, appendDestination, imageURLSize) {
-        currentActiveSlide.classList.toggle('unload')
-        currentActiveSlide.classList.toggle('active')
-        preloadSlide.classList.toggle('active')
-        preloadSlide.classList.toggle('preload')
+    // function sliderActive(appendDestination, imageURLSize) {
+    //     let slideNumber = 0
+    //     let direction = undefined
+    //     let activationCounter = undefined
+
+    //     // Set initial Slider img + state class
+    //     let boundCreateFirstSlideFunction = sliderObjectArray[slideNumber].createMovieSlide.bind(sliderObjectArray[slideNumber])
+    //     let initalSlide = boundCreateFirstSlideFunction(imageURLSize)
+    //     initalSlide.classList.toggle('active')
+    //     appendDestination.appendChild(initalSlide)
         
-        setTimeout(() => {
-            unloadSlide = currentActiveSlide;
-            currentActiveSlide = preloadSlide
+    //     currentActiveSlide = initalSlide;
 
-            if (slideNumber == sliderObjectArray.length) {
-                slideNumber = 0
-            }
+    //     slideNumber++
 
-            let boundCreateSlideFunction = sliderObjectArray[slideNumber].createMovieSlide.bind(sliderObjectArray[slideNumber])
-            let newPreloadSlide = boundCreateSlideFunction(imageURLSize)
-            newPreloadSlide.classList.toggle('preload')
-            appendDestination.appendChild(newPreloadSlide)
+    //     let boundCreateSecondSlideFunction = sliderObjectArray[slideNumber].createMovieSlide.bind(sliderObjectArray[slideNumber])
+    //     let secondSlide = boundCreateSecondSlideFunction(imageURLSize)
+    //     secondSlide.classList.toggle('preload')
+    //     appendDestination.appendChild(secondSlide)
 
-            preloadSlide = newPreloadSlide
-        }, 400);
+    //     preloadSlide = secondSlide;
 
+    //     // let sliderNumberForInitialUnloadSlide = (sliderObjectArray.length) - 1
 
-        console.log(currentActiveSlide);
+    //     // let boundCreateInitialUnloadSlideFunction = sliderObjectArray[sliderNumberForInitialUnloadSlide].createMovieSlide.bind(sliderObjectArray[sliderNumberForInitialUnloadSlide])
+    //     // let initialUnloadSlide = boundCreateInitialUnloadSlideFunction(imageURLSize)
+    //     // initialUnloadSlide.classList.toggle('unload')
+    //     // appendDestination.prepend(initialUnloadSlide)
+
+    //     // unloadSlide = initialUnloadSlide
+
+    //     // Event Listener to identify direction
+    //     appendDestination.addEventListener('click', (e) => {
+    //         let clickedItem = e.target;
+    //         if (clickedItem.classList[1] == 'fa-chevron-right') {
+
+    //             if (slideNumber == (sliderObjectArray.length)) {
+    //                 return
+    //             } else if (slideNumber < (sliderObjectArray.length)) {
+    //                 slideNumber++
+    //                 direction = 'right'                    
+    //                 moveSlider(direction, slideNumber, appendDestination, imageURLSize)
+    //                 activationCounter++
+    //             } else {
+    //                 return
+    //             }
+
+                
+    //         } else if (clickedItem.classList[1] == 'fa-chevron-left') {
+
+    //             if (activationCounter == 0) {
+    //                 if (slideNumber < 0) {
+    //                     return
+    //                 } else {
+    //                     slideNumber--
+    //                     direction = 'left'
+    //                     moveSlider(direction, slideNumber, appendDestination, imageURLSize)
+    //                 }
+    //             } else {
+    //                 if (slideNumber < -2) {
+    //                     return
+    //                 } else {
+    //                     slideNumber--
+    //                     direction = 'left'
+    //                     moveSlider(direction, slideNumber, appendDestination, imageURLSize)
+    //                 }
+    //             }
+
+                
+
+    //         }
+    //     })
+        
+    // }
+
+    // function moveSlider(direction, slideNumber, appendDestination, imageURLSize) {
+    //     if (direction == 'right') {
+    //         currentActiveSlide.classList.toggle('unload')
+    //         currentActiveSlide.classList.toggle('active')
+    //         preloadSlide.classList.toggle('active')
+    //         preloadSlide.classList.remove('preload')
+            
+
+    //         console.log(preloadSlide);
+            
+    //         console.log(currentActiveSlide);
+            
+    //         console.log(unloadSlide);
+
+    //         let removeSlide = unloadSlide
+            
+    //         if (slideNumber > 7) {
+    //             setTimeout(() => {
+    //                 removeSlide.remove()
+    //             }, 400);
+    //             console.log(`To right slideNumber: ${slideNumber}`);
+    //         } else {
+    //             setTimeout(() => {
+    //                 unloadSlide = currentActiveSlide;
+    //                 currentActiveSlide = preloadSlide
+        
+    
+    //                 console.log(`To right slideNumber: ${slideNumber}`);
+                    
+        
+    //                 let boundCreateSlideFunction = sliderObjectArray[slideNumber].createMovieSlide.bind(sliderObjectArray[slideNumber])
+    //                 let newPreloadSlide = boundCreateSlideFunction(imageURLSize)
+    //                 newPreloadSlide.classList.toggle('preload')
+    //                 appendDestination.appendChild(newPreloadSlide)
+        
+    //                 preloadSlide = newPreloadSlide
+    //             }, 5);
+        
+    //         }
+
+    //         console.log(preloadSlide);
+            
+    //         console.log(currentActiveSlide);
+            
+    //         console.log(unloadSlide);
+            
+    //         setTimeout(() => {
+    //             removeSlide.remove()
+    //         }, 400);
+
+    //     } else {
+    //         currentActiveSlide.classList.toggle('active')
+    //         currentActiveSlide.classList.toggle('unload')
+    //         console.log(preloadSlide);
+            
+    //         console.log(currentActiveSlide);
+            
+    //         console.log(unloadSlide);
+            
+
+    //         let removeSlide = preloadSlide
+
+    //         setTimeout(() => {
+    //             preloadSlide = currentActiveSlide;
+    //             currentActiveSlide = unloadSlide    
+                
+    //             let slideNumberForUnloadSlide = slideNumber -2
+    //             if (slideNumberForUnloadSlide < 0) {
+    //                 return
+    //             } else {
+    //                 let boundCreateSlideFunction = sliderObjectArray[slideNumberForUnloadSlide].createMovieSlide.bind(sliderObjectArray[slideNumberForUnloadSlide])
+    //                 let newUnloadSlide = boundCreateSlideFunction(imageURLSize)
+    //                 newUnloadSlide.classList.toggle('Unload')
+        
+    //                 unloadSlide = newUnloadSlide
+    //                 appendDestination.prepend(unloadSlide)
+
+    //             }
+    //             console.log(`To left modified slideNumber: ${slideNumberForUnloadSlide}`);
+    //             console.log(`To left slideNumber: ${slideNumber}`);
+                
+                
+                
+    //         }, 5);
+
+    //         console.log(preloadSlide);
+            
+    //         console.log(currentActiveSlide);
+            
+    //         console.log(unloadSlide);
+
+    //         // setTimeout(() => {
+    //         //     removeSlide.remove()
+    //         // }, 400);
+    
+            
+    //     }
+
         
         
-    }
+    // }
 
 // Fetch Functions
     function fetchTrending(imageURLSize) {
