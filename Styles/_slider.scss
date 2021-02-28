@@ -62,48 +62,6 @@
     }
 
     
-    .sliderTitleNewright {
-        position: absolute;
-        z-index: 1;
-        left: 90px;
-        bottom: 7px;
-        font-size: 1.2rem;
-        opacity: 0;
-        color: white;
-        transition: left 200ms ease, opacity 200ms ease;
-    }
-
-    .sliderTitleNewright.moverightnew {
-        opacity: 0.7;
-        left: 20px;
-    }
-    
-    .sliderTitleNewleft {
-        position: absolute;
-        z-index: 1;
-        left: -50px;
-        bottom: 7px;
-        font-size: 1.2rem;
-        opacity: 0;
-        color: white;
-        transition: left 200ms ease, opacity 200ms ease;
-    }
-
-    .sliderTitleNewleft.moveleftnew {
-        opacity: 0.7;
-        left: 20px;
-    }
-
-    .sliderTitle.moverightold {
-        left: -50px;
-        opacity: 0;
-    }
-
-    .sliderTitle.moveleftold {
-        left: 90px;
-        opacity: 0;
-    }
-    
     .arrowleft {
         width: 40px;
         height: 40px;

@@ -663,50 +663,6 @@ body, html {
   transition: left 200ms ease, opacity 200ms ease;
 }
 
-.slider .sliderTitleNewright {
-  position: absolute;
-  z-index: 1;
-  left: 90px;
-  bottom: 7px;
-  font-size: 1.2rem;
-  opacity: 0;
-  color: white;
-  -webkit-transition: left 200ms ease, opacity 200ms ease;
-  transition: left 200ms ease, opacity 200ms ease;
-}
-
-.slider .sliderTitleNewright.moverightnew {
-  opacity: 0.7;
-  left: 20px;
-}
-
-.slider .sliderTitleNewleft {
-  position: absolute;
-  z-index: 1;
-  left: -50px;
-  bottom: 7px;
-  font-size: 1.2rem;
-  opacity: 0;
-  color: white;
-  -webkit-transition: left 200ms ease, opacity 200ms ease;
-  transition: left 200ms ease, opacity 200ms ease;
-}
-
-.slider .sliderTitleNewleft.moveleftnew {
-  opacity: 0.7;
-  left: 20px;
-}
-
-.slider .sliderTitle.moverightold {
-  left: -50px;
-  opacity: 0;
-}
-
-.slider .sliderTitle.moveleftold {
-  left: 90px;
-  opacity: 0;
-}
-
 .slider .arrowleft {
   width: 40px;
   height: 40px;
@@ -937,15 +893,16 @@ body, html {
     opacity: 1;
     padding: 0% 0px 5% 0px;
   }
-  /* Mobile Content */
-  .content__container {
-    width: 95%;
-  }
 }
 
 @media screen and (max-width: 1215px) {
   .slider .backdropimage .backdropinfo {
     font-size: 1.2rem;
+  }
+  .slider .sliderTitle {
+    position: fixed;
+    left: 19px;
+    top: 669px;
   }
   .slider .arrowleft {
     position: fixed;

@@ -168,36 +168,29 @@
         padding: 0% 0px 5% 0px;
     }
     
-    /* Mobile Content */
     
-    .content__container {
-        width: 95%;
-    }
 
 }
 
+
+// Slider 
 @media screen and (max-width:1215px) {
     .slider {
-         
-        
-        &::after {
-            
-        }
-    
-        
-    
-        .slider__inner {
-            
-        }
-    
         .backdropimage {
-            
-    
             .backdropinfo {
                 font-size: 1.2rem;
             }
         }
+
+        .slider_inner {
+        }
     
+        .sliderTitle {
+            position: fixed;
+            left: 19px;
+            top: 669px;
+        }
+
         .arrowleft {
             position: fixed;
             top: 397px;
@@ -207,8 +200,6 @@
            position: fixed;
            top: 397px;
            right: 30px;
-
         }
-    
     }
 }
