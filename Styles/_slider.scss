@@ -56,9 +56,15 @@
         left: 20px;
         bottom: 7px;
         font-size: 1.2rem;
-        opacity: 0.7;
+        opacity: 0.75;
         color: white;
         transition: left 200ms ease, opacity 200ms ease;
+        .backdropinfo {
+            background: rgb(234,234,234);
+            background: linear-gradient(93deg, rgba(234,234,234,1) 0%, rgba(255,255,255,1) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     }
 
     

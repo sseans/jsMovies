@@ -1,13 +1,17 @@
 // Variables
     let movieObjectArray = []
     let sliderObjectArray = []
+    let counterTimeout = undefined 
+    let slideWidth = slideSizeCalculator()  
     const defaultURL = 'https://api.themoviedb.org/3/movie/550?api_key=672afe6c70446d4ff7c242f8bb0a3609'
     const API_KEY = '672afe6c70446d4ff7c242f8bb0a3609'
     const searchURL = 'https://api.themoviedb.org/3/search/movie?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
     const imageURL = 'https://image.tmdb.org/t/p/w185/'
     const imageURLLarge = 'https://image.tmdb.org/t/p/w342/'
     const imageURLBackdrop = 'https://image.tmdb.org/t/p/w1280/'
+    const imageURLBackdropSmall = 'https://image.tmdb.org/t/p/w780/'
     const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=672afe6c70446d4ff7c242f8bb0a3609'
+    const trendingTVURL = 'https://api.themoviedb.org/3/trending/tv/week?api_key=672afe6c70446d4ff7c242f8bb0a3609'
 
 // Selector
     // Hamburger Menu Selectors
@@ -16,7 +20,8 @@
     const hamburgerBar = document.querySelectorAll('.hamburger__bar')
 
     // Navbar Menu Link Selectors
-    const trendingLink = document.querySelector('#trendingLink')
+    const moviesLink = document.querySelector('#trendingLink')
+    const tvShowsLink =document.querySelector('#tvLink')
 
     // Main Body Selectors
     const contentDiv = document.querySelector('.content')
@@ -27,7 +32,7 @@
 
 // Event Listeners
     hamburgerButton.addEventListener('click', hamburgerToggle)
-    trendingLink.addEventListener('click', () => fetchTrending(imageURL))
+    moviesLink.addEventListener('click', () => fetchTrending(imageURL))
     searchForm.addEventListener('submit', function checkIfPreviouslyUsed(event) {
                                                 // Adds ability to search again from results page without going back
                                                 event.preventDefault();
@@ -37,8 +42,19 @@
                                                     fetchMovieSearch(imageURL)
                                                 }
                                             })
-    document.addEventListener('DOMContentLoaded', () => fetchSlider(imageURLBackdrop))
-
+    document.addEventListener('DOMContentLoaded', () => {                                                        
+                                                    if (window.innerWidth <= 860) {
+                                                        fetchSlider(imageURLBackdropSmall)
+                                                    } else {
+                                                        fetchSlider(imageURLBackdrop)
+                                                    }
+                                                })
+    window.addEventListener('resize', () => {       
+                                        clearTimeout(counterTimeout)
+                                        counterTimeout = setTimeout(sliderSize, 400)
+                                    })
+    tvShowsLink.addEventListener('click', () => fetchTrendingTV(imageURL))
+    
 // Mobile hamburger menu
     function hamburgerToggle() {
         dropDown.classList.toggle('active')
@@ -87,7 +103,26 @@
         let slider = moviePosterContainer.firstElementChild.firstElementChild
         
         return slider
-        
+    }
+
+    function slideSizeCalculator() {
+        let width = undefined
+        if (window.innerWidth <= 860) {
+            width = 780
+        } else {
+            width = 1280
+        }        
+        return width
+    }
+
+    function sliderSize() {
+        if (window.innerWidth <= 860) {
+            fetchSlider(imageURLBackdropSmall)
+            slideWidth = 780
+        } else {
+            fetchSlider(imageURLBackdrop)
+            slideWidth = 1280
+        }        
     }
 
     function sliderActive(appendDestination, imageURLSize) {
@@ -105,7 +140,7 @@
         // leftAmount keeps track of the css styling property left: which moves the inner slider
         let leftAmount = 0
         // Calculates the length of all the images build by the array, so you cant move past the images in the slider
-        let maxAmount = (sliderObjectArray.length * 1280 - 1280) * -1
+        let maxAmount = (sliderObjectArray.length * slideWidth - slideWidth) * -1
 
         // Event Listener & if else statement to identify which button is clicked
         appendDestination.parentNode.addEventListener('click', (e) => {
@@ -116,7 +151,7 @@
                     return
                 } else {
                     titleNumber++
-                    leftAmount -= 1280
+                    leftAmount -= slideWidth
                     appendDestination.style.left = `${leftAmount}px`;
                     sliderTitleChange(appendDestination, titleNumber, 'right')
                 }
@@ -126,7 +161,7 @@
                     return
                 } else {
                     titleNumber--
-                    leftAmount += 1280
+                    leftAmount += slideWidth
                     appendDestination.style.left = `${leftAmount}px`;
                     sliderTitleChange(appendDestination, titleNumber, 'left')
                 }
@@ -196,6 +231,26 @@
         });
     }
 
+    function fetchTrendingTV(imageURLSize) {
+        fetch(trendingTVURL)
+        .then((res) => res.json())
+        .then((data) => {
+            // data.results [] data is returned as an Array
+            const movieData = data.results;
+            console.log(movieData);
+            
+            // Resets Objects => build new movie objects => Creates Movie Poster divs
+            removeObjects()
+            removeSliderObjects()
+            removeDiv('.content__container')
+            buildMovieObjects(movieData)
+            let appendDestination = buildMoviePosterContainerDiv()                     
+            buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize, 'tv')
+        })
+        .catch((error) => {
+            console.log('Error: ', error);
+        });
+    }
 
 // Object Array Functions
     function buildMovieObjects(movieData) {
@@ -210,7 +265,6 @@
                 return true
             }
         })
-        console.log(sliderObjectArray);
     }
 
     function removeObjects()  {
@@ -237,13 +291,12 @@
         return moviePosterContainer
     }
 
-    function buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize) {
+    function buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize, mediaType) {
         // Each Function is bound & called from the appropriate movie object in the array
         movieObjectArray.forEach(element => {
             let boundFunction = element.createMovieBlock.bind(element)        
-            boundFunction(appendDestination, imageURLSize)
+            boundFunction(appendDestination, imageURLSize, mediaType)
         });
-        console.log(movieObjectArray);
     }
 
 
@@ -271,6 +324,8 @@ class movie {
         this.posterPath = individualMovieData.poster_path
         this.backdropPath = individualMovieData.backdrop_path
         this.description = individualMovieData.overview
+        this.name = individualMovieData.name
+        this.firstReleaseDate = individualMovieData.first_air_date
     }
 
     show() {
@@ -278,13 +333,13 @@ class movie {
         
     }
 
-    createMovieBlock(appendDestination, imageURLSize) {        
+    createMovieBlock(appendDestination, imageURLSize, mediaType) {        
         // Create Div & change class
         const movieElement = document.createElement('div')
         movieElement.className = 'moviePosters'
 
         // create Event Listener for clicking each poster
-        movieElement.addEventListener('click', () => this.toggleMovieView(movieElement))
+        movieElement.addEventListener('click', () => this.toggleMovieView(mediaType))
 
         // Create HTML Template with poster images
         const movieTemplate = `${this.movieImages(imageURLSize)}`;
@@ -357,13 +412,13 @@ class movie {
         
     }
 
-    toggleMovieView() {
+    toggleMovieView(mediaType) {
         // Create Div & change class
         const viewModeDiv = document.createElement('div')
         viewModeDiv.className = 'viewmode'
 
         // Create html Template => add to div innerHTML => append to body 
-        let viewModeTemplate = `${this.viewModeTemplateMaker()}`
+        let viewModeTemplate = `${this.viewModeTemplateMaker(mediaType)}`
         viewModeDiv.innerHTML = viewModeTemplate
         document.body.appendChild(viewModeDiv)
 
@@ -371,13 +426,23 @@ class movie {
         document.querySelector('.viewmode__exitbutton').addEventListener('click', () => removeDiv('.viewmode'))
     }
 
-    viewModeTemplateMaker() {
+    viewModeTemplateMaker(mediaType) {
+        let titleName
+        let releaseDate
+        if (mediaType == 'tv') {
+            titleName = this.name
+            releaseDate = this.firstReleaseDate
+        } else {
+            titleName = this.title
+            releaseDate = this.releaseDate
+        }
+        
         return `
             <div class='viewmode__card'>
                 <div class='viewmode__poster'><img src=${imageURLLarge + this.posterPath} data-movie-id=${this.id}/></div>
                 <div class='viewmode__info'>
                     <div class='viewmode__infotoolbar'>
-                        <div class='info__title'>${this.title}</div>
+                        <div class='info__title'>${titleName}</div>
                     </div>
                         <div class='rating'>
                             <div class='info__rating'>${this.rating}</div>
@@ -386,7 +451,7 @@ class movie {
                         </div>
                         <div class='info__description'>${this.description}</div>
                         <div class='info__additional'>
-                            <div class='info__releasedate'>${this.releaseDate}</div>
+                            <div class='info__releasedate'>${releaseDate}</div>
                             <div class='info__language'>${this.language}</div>    
                         </div>
                 </div>

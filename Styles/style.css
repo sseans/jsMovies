@@ -49,6 +49,7 @@ body, html {
       -ms-flex-align: center;
           align-items: center;
   overflow-y: scroll;
+  overflow-x: hidden;
   position: relative;
   height: 100%;
   /* background: rgb(49,61,90);
@@ -657,10 +658,17 @@ body, html {
   left: 20px;
   bottom: 7px;
   font-size: 1.2rem;
-  opacity: 0.7;
+  opacity: 0.75;
   color: white;
   -webkit-transition: left 200ms ease, opacity 200ms ease;
   transition: left 200ms ease, opacity 200ms ease;
+}
+
+.slider .sliderTitle .backdropinfo {
+  background: #eaeaea;
+  background: linear-gradient(93deg, #eaeaea 0%, white 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .slider .arrowleft {
@@ -912,6 +920,38 @@ body, html {
     position: fixed;
     top: 397px;
     right: 30px;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .slider {
+    width: 780px;
+    height: 425px;
+    -webkit-transition: all 300ms ease;
+    transition: all 300ms ease;
+  }
+  .slider .backdropimage {
+    width: 780px;
+    -webkit-transition: all 300ms ease;
+    transition: all 300ms ease;
+  }
+  .slider .sliderTitle {
+    position: fixed;
+    left: 35px;
+    top: 425px;
+    font-size: 0.75rem;
+    -webkit-transition: all 300ms ease;
+    transition: all 300ms ease;
+  }
+  .slider .arrowleft {
+    position: fixed;
+    top: 280px;
+    left: 20px;
+  }
+  .slider .arrowright {
+    position: fixed;
+    top: 280px;
+    right: 35px;
   }
 }
 /*# sourceMappingURL=style.css.map */
