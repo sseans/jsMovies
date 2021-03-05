@@ -26,7 +26,7 @@
     // Navbar Dark Mode Selectors
     const darkModeButton = document.querySelector('.navbar__darkmode')
     const darkModeInnerCircle = document.querySelector('.darkmode__toggle')
-    const darkModeMoonIcon = document.querySelector('.fas fa-moon')
+    const darkModeMoonIcon = document.querySelector('.fa-moon')
 
     // Main Body Selectors
     const contentDiv = document.querySelector('.content')

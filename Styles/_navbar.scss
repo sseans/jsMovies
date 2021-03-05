@@ -172,15 +172,27 @@
     width: 19.5px;
     background-color: var(--modifiedSpaceCadet);
     border-radius: 25px;
-    margin-right: auto;  
+    margin-right: 15px;  
     margin-left: -1px;
     display: flex;
     justify-content: center;  
     align-items: center;
+    transition: all 250ms ease;
+    transition-timing-function: cubic-bezier(0, 1.78, 0.61, 0.76);
+}
+
+.darkmode__toggle.active {
+    margin-right: -0.5px;
+    margin-left: 15px;
 }
 
 .fa-moon {
     color: var(--spaceCadet);
+    margin-left: -1px;
+}
+
+.fa-moon.active {
+    color: var(--raspberry);
     margin-left: -1px;
 }
 

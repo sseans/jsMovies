@@ -338,7 +338,7 @@ body, html {
   width: 19.5px;
   background-color: var(--modifiedSpaceCadet);
   border-radius: 25px;
-  margin-right: auto;
+  margin-right: 15px;
   margin-left: -1px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -349,10 +349,24 @@ body, html {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-transition: all 250ms ease;
+  transition: all 250ms ease;
+  -webkit-transition-timing-function: cubic-bezier(0, 1.78, 0.61, 0.76);
+          transition-timing-function: cubic-bezier(0, 1.78, 0.61, 0.76);
+}
+
+.darkmode__toggle.active {
+  margin-right: -0.5px;
+  margin-left: 15px;
 }
 
 .fa-moon {
   color: var(--spaceCadet);
+  margin-left: -1px;
+}
+
+.fa-moon.active {
+  color: var(--raspberry);
   margin-left: -1px;
 }
 
