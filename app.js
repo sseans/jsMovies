@@ -21,7 +21,12 @@
 
     // Navbar Menu Link Selectors
     const moviesLink = document.querySelector('#trendingLink')
-    const tvShowsLink =document.querySelector('#tvLink')
+    const tvShowsLink = document.querySelector('#tvLink')
+
+    // Navbar Dark Mode Selectors
+    const darkModeButton = document.querySelector('.navbar__darkmode')
+    const darkModeInnerCircle = document.querySelector('.darkmode__toggle')
+    const darkModeMoonIcon = document.querySelector('.fas fa-moon')
 
     // Main Body Selectors
     const contentDiv = document.querySelector('.content')
@@ -54,6 +59,7 @@
                                         counterTimeout = setTimeout(sliderSize, 400)
                                     })
     tvShowsLink.addEventListener('click', () => fetchTrendingTV(imageURL))
+    darkModeButton.addEventListener('click', darkModeButtonToggle)
     
 // Mobile hamburger menu
     function hamburgerToggle() {
@@ -299,6 +305,16 @@
         });
     }
 
+// Night Mode Functions
+    function darkModeButtonToggle() {
+        darkModeButton.classList.toggle('active')
+        darkModeInnerCircle.classList.toggle('active')
+        darkModeMoonIcon.classList.toggle('active')
+    }
+
+    function activateDarkMode() {
+
+    }
 
 // Utility Functions (Various Operations)
     function removeDiv(className) {
