@@ -1,11 +1,13 @@
 // Variables
     let movieObjectArray = []
+    let tvObjectArray = []
     let sliderObjectArray = []
     let counterTimeout = undefined 
     let slideWidth = slideSizeCalculator()  
     const defaultURL = 'https://api.themoviedb.org/3/movie/550?api_key=672afe6c70446d4ff7c242f8bb0a3609'
     const API_KEY = '672afe6c70446d4ff7c242f8bb0a3609'
     const searchURL = 'https://api.themoviedb.org/3/search/movie?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
+    const searchURLTV = 'https://api.themoviedb.org/3/search/tv?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
     const imageURL = 'https://image.tmdb.org/t/p/w185/'
     const imageURLLarge = 'https://image.tmdb.org/t/p/w342/'
     const imageURLBackdrop = 'https://image.tmdb.org/t/p/w1280/'
@@ -44,7 +46,7 @@
                                                 if (inputElement.value == '') {
                                                     return
                                                 } else {
-                                                    fetchMovieSearch(imageURL)
+                                                    fetchTVMovieSearch(imageURL)
                                                 }
                                             })
     document.addEventListener('DOMContentLoaded', () => {                                                        
@@ -213,6 +215,58 @@
         });
     }
 
+    function fetchTVMovieSearch(imageURLSize) {
+        // Add input from text field to fetch URL
+        let inputValue = inputElement.value
+        let valueAddedMovieUrl = searchURL + inputValue
+        let valueAddedTVUrl = searchURLTV + inputValue
+        inputElement.value = ''   
+        
+        // Removes any pre-existing object arrays/divs that are meant for displaying content
+        removeObjects()
+        removeSliderObjects()
+        removeTvObjects()
+        removeDiv('.content__container')
+
+        fetch(valueAddedMovieUrl)
+        .then((res) => res.json())
+        .then((data) => {
+            // data.results [] data is returned as an Array => build new movie objects 
+            const movieData = data.results;
+            buildMovieObjects(movieData)   
+            console.log(movieObjectArray);
+             
+        })
+        .catch((error) => {
+            console.log('Error: ', error);
+        });
+
+        fetch(valueAddedTVUrl)
+        .then((res) => res.json())
+        .then((data) => {
+            // data.results [] data is returned as an Array => build new movie objects 
+            const movieData = data.results;
+            buildTVObjects(movieData)    
+        })
+        .catch((error) => {
+            console.log('Error: ', error);
+        });
+
+
+        setTimeout(() => {
+            console.log(movieObjectArray);
+            movieObjectArray.push.apply(movieObjectArray, tvObjectArray)
+            console.log(movieObjectArray);
+
+            movieObjectArray.sort((a,b) => b.numberOfRatings - a.numberOfRatings)
+            
+            let appendDestination = buildMoviePosterContainerDiv()               
+            buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
+        }, 500);
+
+        
+    }
+
     function fetchMovieSearch(imageURLSize) {
         // Add input from text field to fetch URL
         let inputValue = inputElement.value
@@ -264,6 +318,11 @@
         movieData.forEach(element => movieObjectArray.push(new movie(element)))     
     }
 
+    function buildTVObjects(movieData) {
+        // build new objects from movie data and push to movieObjectArray []
+        movieData.forEach(element => tvObjectArray.push(new movie(element)))     
+    }
+
     function buildSliderObjectsFromMovieObjects() {
         // filters original movie object array, finding only the ones with > 500 ratings => creates sliderObjectArray
         sliderObjectArray = movieObjectArray.filter((x) => {
@@ -287,6 +346,13 @@
         }
     }
 
+    function removeTvObjects() {
+        // removes an object off the array until the array.length = 0
+        for (let i = 0; tvObjectArray.length > 0; i++) {
+            tvObjectArray.pop()
+        }
+    }
+
 // Movie Poster Functions
     function buildMoviePosterContainerDiv() {
         // create element => append => return element to be used as appendDestination
@@ -297,11 +363,11 @@
         return moviePosterContainer
     }
 
-    function buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize, mediaType) {
+    function buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize) {
         // Each Function is bound & called from the appropriate movie object in the array
         movieObjectArray.forEach(element => {
             let boundFunction = element.createMovieBlock.bind(element)        
-            boundFunction(appendDestination, imageURLSize, mediaType)
+            boundFunction(appendDestination, imageURLSize)            
         });
     }
 
@@ -361,18 +427,18 @@ class movie {
         const movieTemplate = `${this.movieImages(imageURLSize)}`;
 
         // Delete moviePoster div if there is no posterpath in this object
-        if (this.movieImages() == null) {
-            movieElement.parentNode.removeChild(movieElement)
+        if (this.movieImages() == null || this.movieImages() == undefined) {
+            return
+        } else {
+            // Add template to div HTML & append
+            movieElement.innerHTML = movieTemplate
+            appendDestination.appendChild(movieElement)
         }
-
-        // Add template to div HTML & append
-        movieElement.innerHTML = movieTemplate
-        appendDestination.appendChild(movieElement)
     }
     
     movieImages(imageURLSize) {
         // only returns template literal if there is a poster img
-        if (this.posterPath == null) {
+        if (this.posterPath == null || this.numberOfRatings <= 10) {
             return null
         } else {
             return `
@@ -445,7 +511,7 @@ class movie {
     viewModeTemplateMaker(mediaType) {
         let titleName
         let releaseDate
-        if (mediaType == 'tv') {
+        if (this.title == undefined) {
             titleName = this.name
             releaseDate = this.firstReleaseDate
         } else {
