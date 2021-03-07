@@ -228,14 +228,13 @@
         removeTvObjects()
         removeDiv('.content__container')
 
+        // fetch movies & then tv shows => creates an array of objects from both
         fetch(valueAddedMovieUrl)
         .then((res) => res.json())
         .then((data) => {
             // data.results [] data is returned as an Array => build new movie objects 
             const movieData = data.results;
             buildMovieObjects(movieData)   
-            console.log(movieObjectArray);
-             
         })
         .catch((error) => {
             console.log('Error: ', error);
@@ -244,7 +243,7 @@
         fetch(valueAddedTVUrl)
         .then((res) => res.json())
         .then((data) => {
-            // data.results [] data is returned as an Array => build new movie objects 
+            // data.results [] data is returned as an Array => build new tv objects 
             const movieData = data.results;
             buildTVObjects(movieData)    
         })
@@ -252,43 +251,18 @@
             console.log('Error: ', error);
         });
 
-
+        // Set Timeout so that it doesnt try to merge the arrays befor they are created
         setTimeout(() => {
-            console.log(movieObjectArray);
+            // merge Arrays
             movieObjectArray.push.apply(movieObjectArray, tvObjectArray)
-            console.log(movieObjectArray);
-
+            // Sort new merged array by number of ratings
             movieObjectArray.sort((a,b) => b.numberOfRatings - a.numberOfRatings)
-            
+            // Append and create posters
             let appendDestination = buildMoviePosterContainerDiv()               
             buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
-        }, 500);
+        }, 300);
 
         
-    }
-
-    function fetchMovieSearch(imageURLSize) {
-        // Add input from text field to fetch URL
-        let inputValue = inputElement.value
-        let valueAddedUrl = searchURL + inputValue
-        inputElement.value = ''
-        
-        fetch(valueAddedUrl)
-        .then((res) => res.json())
-        .then((data) => {
-            // data.results [] data is returned as an Array
-            const movieData = data.results;
-            // Resets Objects => build new movie objects => Creates Movie Poster divs
-            removeObjects()
-            removeSliderObjects()
-            removeDiv('.content__container')
-            buildMovieObjects(movieData)    
-            let appendDestination = buildMoviePosterContainerDiv()                     
-            buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
-        })
-        .catch((error) => {
-            console.log('Error: ', error);
-        });
     }
 
     function fetchTrendingTV(imageURLSize) {
