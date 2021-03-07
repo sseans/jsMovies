@@ -3,7 +3,9 @@
     let tvObjectArray = []
     let sliderObjectArray = []
     let counterTimeout = undefined 
-    let slideWidth = slideSizeCalculator()  
+    let slideWidth = slideSizeCalculator() 
+    let windowSize = undefined
+    let initialWindowSize = undefined 
     const defaultURL = 'https://api.themoviedb.org/3/movie/550?api_key=672afe6c70446d4ff7c242f8bb0a3609'
     const API_KEY = '672afe6c70446d4ff7c242f8bb0a3609'
     const searchURL = 'https://api.themoviedb.org/3/search/movie?api_key=672afe6c70446d4ff7c242f8bb0a3609&query='
@@ -49,10 +51,13 @@
                                                     fetchTVMovieSearch(imageURL)
                                                 }
                                             })
-    document.addEventListener('DOMContentLoaded', () => {                                                        
+    document.addEventListener('DOMContentLoaded', () => {   
+                                                    initialWindowSize = window.innerWidth
                                                     if (window.innerWidth <= 860) {
+                                                        windowSize = 'small'
                                                         fetchSlider(imageURLBackdropSmall)
                                                     } else {
+                                                        windowSize = 'large'
                                                         fetchSlider(imageURLBackdrop)
                                                     }
                                                 })
@@ -124,13 +129,29 @@
     }
 
     function sliderSize() {
+        // records window size in a string then compares to initial window size 
+        let sliderScale;
         if (window.innerWidth <= 860) {
-            fetchSlider(imageURLBackdropSmall)
-            slideWidth = 780
+            sliderScale = 'small'
         } else {
-            fetchSlider(imageURLBackdrop)
-            slideWidth = 1280
+            sliderScale = 'large'
         }        
+
+        // Checks to see if the windowSize at DOMContentLoaded & sliderscale at window Resize are the same, if they are different, build new slider
+        // Also makes sure the window wont resize unless the page being viewed has a slider on it
+        if (windowSize !== sliderScale && sliderObjectArray.length > 1) {
+            if (window.innerWidth <= 860) {
+                windowSize = 'small'
+                fetchSlider(imageURLBackdropSmall)
+                slideWidth = 780
+            } else {
+                windowSize = 'large'
+                fetchSlider(imageURLBackdrop)
+                slideWidth = 1280
+            }        
+        } else {
+            return
+        }
     }
 
     function sliderActive(appendDestination, imageURLSize) {
