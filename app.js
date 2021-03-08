@@ -35,6 +35,8 @@
     // Main Body Selectors
     const contentDiv = document.querySelector('.content')
 
+    // Slider Selectors 
+
     // SearchBar Selectors
     const inputElement = document.querySelector('.searchbox__input')
     const searchForm = document.querySelector('.navbar__searchbox')
@@ -112,6 +114,11 @@
         moviePosterContainer.innerHTML = sliderTemplate
         
         contentDiv.appendChild(moviePosterContainer)
+
+        // Arrow Selectors for the slider => trigger function to automate slider
+        const sliderRight = document.querySelector('.arrowright')        
+        const sliderLeft = document.querySelector('.arrowleft')
+        automateSlider(sliderRight, sliderLeft)
         
         let slider = moviePosterContainer.firstElementChild.firstElementChild
         
@@ -176,6 +183,7 @@
             let clickedItem = e.target;
         
             if (clickedItem.classList[1] == 'fa-chevron-right' || clickedItem.classList[0] == 'arrowright') {
+                // maxAmount is a negative number, since the slider_inner is being moved to the left to give the appearance of moving through the movies to the right
                 if (leftAmount <= maxAmount) {
                     return
                 } else {
@@ -214,6 +222,13 @@
         setTimeout(() => {
             sliderTitle(appendDestination, titleNumber)            
         }, 200);
+    }
+
+    // Automate Slider
+    function automateSlider(sliderRight, sliderLeft) {
+        setInterval(() => {
+            sliderRight.click()                     
+        }, 10000);
     }
 
 // Fetch Functions
