@@ -19,7 +19,7 @@
         height: 100%;
         opacity: 0.85;
         background: rgb(219,41,85);
-        background: linear-gradient(270deg, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0) 100%);
+        background: linear-gradient(270deg, rgba(219,41,85,1) 0%, rgba(219,41,85,0) 100%);
         transition: all 250ms ease-in-out;
         pointer-events: none;
     }
@@ -70,24 +70,44 @@
     font-size: 1.3rem;
 }
 
-.viewmode__infotoolbar {
-    display: flex;
-    justify-content: space-between;
-    font-size: 1.9rem;
-}
-
 .info__title {
     font-size: 4.5rem;
     text-transform: uppercase;
     font-weight: bold;
 }
 
+
 .rating {
-    font-size: 1.8rem;
+    font-size: 1.45rem;
     width: 125px;
     display: flex;
     min-width: fit-content;
     justify-content: space-between;
+
+    .ratingbox {
+        width: 75px;
+        height: 35px;
+        background-color: var(--raspberry);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 3px;
+        padding-top: 3px;
+        margin-right: 12.5px;
+    
+        .fa-star {
+            font-size: 1.2rem;
+            margin-right: 3px;
+            margin-bottom: 4px;
+        }
+    }
+
+    .info__numberofratings {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        font-size: 1.1rem;
+    }
 }
 
 .viewmode__exitbutton {
@@ -112,23 +132,36 @@
     .viewmode__buttontrailer {
         width: 190px;
         height: 50px;
-        background-color: transparent;
-        border: 1px white solid;
+        background-color: var(--raspberry);
+        border: 1px var(--raspberry) solid;
         border-radius: 4px;
         color: white;
         font-size: 1.2rem;
         margin-right: 10px;
+        cursor: pointer;
+        transition: transform 200ms ease-in-out;
 
+        &:hover {
+            transform: scale(1.03);
+            background-color: var(--darkRaspberry);
+        }
     }
 
     .viewmode__buttonfav {
         width: 190px;
         height: 50px;
-        background-color: transparent;
-        border: 1px white solid;
+        background-color: white;
+        border: 1px transparent solid;
         border-radius: 4px;
-        color: white;
+        color: var(--raspberry);
         font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 200ms ease-in-out;
+
+        &:hover {
+            transform: scale(1.03);
+            background-color: var(--platinum);
+        }
     }
 
 }

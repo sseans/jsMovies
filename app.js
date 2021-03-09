@@ -545,9 +545,11 @@ class movie {
                         <div class='info__title'>${titleName}</div>
                         </div>
                         <div class='rating'>
-                            <div class='info__rating'>${this.rating}</div>
-                            <div class='rating__slash'>/</div>
-                            <div class='info__numberofratings'>${this.numberOfRatings}</div>
+                            <div class='ratingbox'>
+                                <i class="fas fa-star"></i>
+                                <div class='info__rating'>${this.rating}</div>
+                            </div>
+                            <div class='info__numberofratings'>${this.numberOfRatings} Votes</div>
                             </div>
                         <div class='info__description'>${this.description}</div>
                         <div class='info__additional'>

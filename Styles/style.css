@@ -1,6 +1,7 @@
 /* Variables & General Page Styling */
 :root {
   --raspberry: #DB2955;
+  --darkRaspberry: #C02148;
   --gunmetal: #183642;
   --spaceCadet: #313d5a;
   --darkSpaceCadet: #232b40;
@@ -26,7 +27,7 @@ body, html {
           box-sizing: inherit;
   height: 100%;
   width: 100%;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .body__wrapper {
@@ -517,8 +518,8 @@ body, html {
   height: 100%;
   opacity: 0.85;
   background: #db2955;
-  background: -webkit-gradient(linear, right top, left top, from(black), to(rgba(0, 0, 0, 0)));
-  background: linear-gradient(270deg, black 0%, rgba(0, 0, 0, 0) 100%);
+  background: -webkit-gradient(linear, right top, left top, from(#db2955), to(rgba(219, 41, 85, 0)));
+  background: linear-gradient(270deg, #db2955 0%, rgba(219, 41, 85, 0) 100%);
   -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
   pointer-events: none;
@@ -587,16 +588,6 @@ body, html {
   font-size: 1.3rem;
 }
 
-.viewmode__infotoolbar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  font-size: 1.9rem;
-}
-
 .info__title {
   font-size: 4.5rem;
   text-transform: uppercase;
@@ -604,7 +595,7 @@ body, html {
 }
 
 .rating {
-  font-size: 1.8rem;
+  font-size: 1.45rem;
   width: 125px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -615,6 +606,41 @@ body, html {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+.rating .ratingbox {
+  width: 75px;
+  height: 35px;
+  background-color: var(--raspberry);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 3px;
+  padding-top: 3px;
+  margin-right: 12.5px;
+}
+
+.rating .ratingbox .fa-star {
+  font-size: 1.2rem;
+  margin-right: 3px;
+  margin-bottom: 4px;
+}
+
+.rating .info__numberofratings {
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 1.1rem;
 }
 
 .viewmode__exitbutton {
@@ -649,22 +675,42 @@ body, html {
 .viewmode__buttoncontainer .viewmode__buttontrailer {
   width: 190px;
   height: 50px;
-  background-color: transparent;
-  border: 1px white solid;
+  background-color: var(--raspberry);
+  border: 1px var(--raspberry) solid;
   border-radius: 4px;
   color: white;
   font-size: 1.2rem;
   margin-right: 10px;
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 200ms ease-in-out;
+  transition: -webkit-transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, -webkit-transform 200ms ease-in-out;
+}
+
+.viewmode__buttoncontainer .viewmode__buttontrailer:hover {
+  -webkit-transform: scale(1.03);
+          transform: scale(1.03);
+  background-color: var(--darkRaspberry);
 }
 
 .viewmode__buttoncontainer .viewmode__buttonfav {
   width: 190px;
   height: 50px;
-  background-color: transparent;
-  border: 1px white solid;
+  background-color: white;
+  border: 1px transparent solid;
   border-radius: 4px;
-  color: white;
+  color: var(--raspberry);
   font-size: 1.2rem;
+  cursor: pointer;
+  -webkit-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+
+.viewmode__buttoncontainer .viewmode__buttonfav:hover {
+  -webkit-transform: scale(1.03);
+          transform: scale(1.03);
+  background-color: var(--platinum);
 }
 
 .slider {
