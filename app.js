@@ -91,6 +91,7 @@
                 removeObjects()
                 removeSliderObjects()
                 removeDiv('.content__container')
+                removeDiv('.viewmode')
                 buildMovieObjects(movieData)
                 buildSliderObjectsFromMovieObjects()
                 let appendDestination = buildMovieBackdropSliderDiv()                                 
@@ -244,6 +245,7 @@
             removeObjects()
             removeSliderObjects()
             removeDiv('.content__container')
+            removeDiv('.viewmode')
             buildMovieObjects(movieData)    
             let appendDestination = buildMoviePosterContainerDiv()                     
             buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize)
@@ -265,6 +267,7 @@
         removeSliderObjects()
         removeTvObjects()
         removeDiv('.content__container')
+        removeDiv('.viewmode')
 
         // fetch movies & then tv shows => creates an array of objects from both
         fetch(valueAddedMovieUrl)
@@ -315,6 +318,7 @@
             removeObjects()
             removeSliderObjects()
             removeDiv('.content__container')
+            removeDiv('.viewmode')
             buildMovieObjects(movieData)
             let appendDestination = buildMoviePosterContainerDiv()                     
             buildMoviePostersWithEachMovieObject(appendDestination, imageURLSize, 'tv')
@@ -552,7 +556,7 @@ class movie {
                         </div>
                         </div>
                 <div class="viewmode__exitbutton">
-                <i class="fas fa-times"></i>
+                <i class="fas fa-arrow-left"></i>
                 </div>
                 </div>
                 `

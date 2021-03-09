@@ -23,6 +23,13 @@
     margin: auto 30px;
     display: flex;
     align-items: center;
+    position: relative;
+    z-index: 99;
+
+    .fa-search {
+        color: var(--platinum);
+        font-size: 1.65rem;
+    }
 }
 
 .logo__link {
