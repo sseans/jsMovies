@@ -13,6 +13,8 @@
 
     .navbar__mobileSearch {
         display: block;
+        position: relative;
+        z-index: 99;
         width: 90%;
         background-color: var(--mixSpaceCadet);
         border: var(--mixSpaceCadet) 3px solid;

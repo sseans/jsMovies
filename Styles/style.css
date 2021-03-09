@@ -515,13 +515,24 @@ body, html {
   right: 0;
   width: 100%;
   height: 100%;
-  opacity: 0.90;
+  opacity: 0.85;
   background: #db2955;
   background: -webkit-gradient(linear, right top, left top, from(black), to(rgba(0, 0, 0, 0)));
   background: linear-gradient(270deg, black 0%, rgba(0, 0, 0, 0) 100%);
   -webkit-transition: all 250ms ease-in-out;
   transition: all 250ms ease-in-out;
   pointer-events: none;
+}
+
+.viewmode::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+  background: black;
 }
 
 .viewmode__card {
@@ -555,6 +566,10 @@ body, html {
   height: -moz-fit-content;
   height: fit-content;
   margin: 20px;
+  border-radius: 15px;
+  overflow: hidden;
+  min-width: 340px;
+  max-height: 510px;
 }
 
 .viewmode__info {
@@ -785,6 +800,8 @@ body, html {
   }
   .navbar__mobileSearch {
     display: block;
+    position: relative;
+    z-index: 99;
     width: 90%;
     background-color: var(--mixSpaceCadet);
     border: var(--mixSpaceCadet) 3px solid;
