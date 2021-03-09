@@ -13,6 +13,7 @@
     const imageURL = 'https://image.tmdb.org/t/p/w185/'
     const imageURLLarge = 'https://image.tmdb.org/t/p/w342/'
     const imageURLBackdrop = 'https://image.tmdb.org/t/p/w1280/'
+    const imageURLBackdropAlternate = 'https://image.tmdb.org/t/p/original'
     const imageURLBackdropSmall = 'https://image.tmdb.org/t/p/w780/'
     const trendingURL = 'https://api.themoviedb.org/3/trending/movie/week?api_key=672afe6c70446d4ff7c242f8bb0a3609'
     const trendingTVURL = 'https://api.themoviedb.org/3/trending/tv/week?api_key=672afe6c70446d4ff7c242f8bb0a3609'
@@ -48,7 +49,6 @@
                                                 // Adds ability to search again from results page without going back
                                                 event.preventDefault();
                                                 if (inputElement.value == '') {
-                                                    return
                                                 } else {
                                                     fetchTVMovieSearch(imageURL)
                                                 }
@@ -85,6 +85,8 @@
             .then((data) => {
                 // data.results [] data is returned as an Array
                 const movieData = data.results;
+                console.log(movieData);
+                
                 // Resets Objects => build new movie objects => Creates Movie Poster divs
                 removeObjects()
                 removeSliderObjects()
@@ -510,15 +512,17 @@ class movie {
         viewModeDiv.className = 'viewmode'
 
         // Create html Template => add to div innerHTML => append to body 
-        let viewModeTemplate = `${this.viewModeTemplateMaker(mediaType)}`
+        let viewModeTemplate = `${this.viewModeTemplateMaker()}`
         viewModeDiv.innerHTML = viewModeTemplate
         document.body.appendChild(viewModeDiv)
+
+        this.setBackgroundImage(viewModeDiv)
 
         // Adds eventlistener to exitbutton which triggers and removes the viewmode from DOM
         document.querySelector('.viewmode__exitbutton').addEventListener('click', () => removeDiv('.viewmode'))
     }
 
-    viewModeTemplateMaker(mediaType) {
+    viewModeTemplateMaker() {
         let titleName
         let releaseDate
         if (this.title == undefined) {
@@ -527,31 +531,66 @@ class movie {
         } else {
             titleName = this.title
             releaseDate = this.releaseDate
-        }
+        }        
         
         return `
-            <div class='viewmode__card'>
+        <div class='viewmode__card'>
                 <div class='viewmode__poster'><img src=${imageURLLarge + this.posterPath} data-movie-id=${this.id}/></div>
                 <div class='viewmode__info'>
                     <div class='viewmode__infotoolbar'>
                         <div class='info__title'>${titleName}</div>
-                    </div>
+                        </div>
                         <div class='rating'>
                             <div class='info__rating'>${this.rating}</div>
                             <div class='rating__slash'>/</div>
                             <div class='info__numberofratings'>${this.numberOfRatings}</div>
-                        </div>
+                            </div>
                         <div class='info__description'>${this.description}</div>
                         <div class='info__additional'>
                             <div class='info__releasedate'>${releaseDate}</div>
                             <div class='info__language'>${this.language}</div>    
                         </div>
-                </div>
+                        </div>
                 <div class="viewmode__exitbutton">
-                    <i class="fas fa-times"></i>
+                <i class="fas fa-times"></i>
                 </div>
-            </div>
-        `
-    }
-}
+                </div>
+                `
+            }
+            
+            setBackgroundImage(viewModeDiv) {
+                let moreImagesURL = `https://api.themoviedb.org/3/movie/${this.id}/images?api_key=${API_KEY}`
 
+                fetch(moreImagesURL)
+                .then((res) => res.json())
+                .then((data) => {
+                    // data.backdrops [] data is returned as an Array
+                    const imageData = data.backdrops
+                    console.log(imageData);
+
+                    let chosenImagePath = undefined
+                    for(let i = 0; i < imageData.length; i++) {
+                        if (imageData[i].height >= 1080 && (imageData[i].iso_639_1 === 'en' || imageData[i].iso_639_1 == null)) {
+                            if (i >= 1) {
+                                chosenImagePath = imageData[i].file_path
+                                console.log(chosenImagePath);
+                                break
+                            } else {
+                                continue
+                            }
+                        } else {
+                            continue
+                        }
+                    }
+
+                    viewModeDiv.style.backgroundImage = `url('${imageURLBackdropAlternate}${chosenImagePath}')`
+
+
+                })
+                .catch((error) => {
+                    console.log('Error: ', error);
+                });
+        
+            }
+        }
+        
