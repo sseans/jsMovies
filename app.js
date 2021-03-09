@@ -552,7 +552,10 @@ class movie {
                         <div class='info__description'>${this.description}</div>
                         <div class='info__additional'>
                             <div class='info__releasedate'>${releaseDate}</div>
-                            <div class='info__language'>${this.language}</div>    
+                            <div class='viewmode__buttoncontainer'>
+                                <button class='viewmode__buttontrailer'><i class="fas fa-play"></i> Watch Trailer</button>
+                                <button class='viewmode__buttonfav'><i class="fas fa-bookmark"></i> Favourite</button>
+                            </div>  
                         </div>
                         </div>
                 <div class="viewmode__exitbutton">
@@ -594,7 +597,6 @@ class movie {
                 .catch((error) => {
                     console.log('Error: ', error);
                 });
-        
             }
         }
         
