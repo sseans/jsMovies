@@ -594,7 +594,6 @@ class movie {
 
                     viewModeDiv.style.backgroundImage = `url('${imageURLBackdropAlternate}${chosenImagePath}')`
 
-
                 })
                 .catch((error) => {
                     console.log('Error: ', error);
